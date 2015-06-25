@@ -6,16 +6,19 @@
 class SomeClass {
 public:
     void fct(void) {
-        std::cout << "Hello World" << std::endl;
+        std::cout << "fct()" << std::endl;
+    }
+
+    void other_fct(void) {
+        std::cout << "other_fct()" << std::endl;
     }
 };
 
-REGISTER_REFLECTABLE(SomeClass)
+REGISTER_REFLECTABLE(SomeClass, (fct)(other_fct))
 
 int main(void) {
-    REGISTER_MEMBER_FUNCTION(SomeClass, fct)
-
     cpp_reflection::reflection_manager::make_reflection("SomeClass", "fct");
+    cpp_reflection::reflection_manager::make_reflection("SomeClass", "other_fct");
 
     return 0;
 }
