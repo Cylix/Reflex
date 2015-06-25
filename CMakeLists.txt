@@ -5,12 +5,6 @@ cmake_minimum_required(VERSION 2.8.1)
 cmake_policy(SET CMP0042 NEW)
 
 ###
-# compilation options
-###
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
-
-
-###
 # verbose make
 ###
 # set(CMAKE_VERBOSE_MAKEFILE TRUE)
@@ -21,6 +15,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
 ###
 set(PROJECT cpp_reflection)
 project(${PROJECT} CXX)
+
+
+###
+# compilation options
+###
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 
 ###
