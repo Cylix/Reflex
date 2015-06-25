@@ -44,11 +44,13 @@ endforeach()
 ###
 # executable
 ###
-#add_library(${PROJECT} SHARED ${SOURCES})
-#set_target_properties(${PROJECT}
-#                      PROPERTIES
-#                      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
-add_executable(${PROJECT} ${SOURCES})
+add_library(${PROJECT} SHARED ${SOURCES})
 set_target_properties(${PROJECT}
+                      PROPERTIES
+                      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
+
+add_executable(${PROJECT}_example example/main.cpp)
+target_link_libraries(${PROJECT}_example ${PROJECT})
+set_target_properties(${PROJECT}_example
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
