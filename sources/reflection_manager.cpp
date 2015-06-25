@@ -1,7 +1,7 @@
 #include "cpp_reflection/reflection_manager.hpp"
 #include "cpp_reflection/reflection_exception.hpp"
 
-#include <iostream>
+#include <algorithm>
 
 namespace cpp_reflection {
 

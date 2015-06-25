@@ -7,7 +7,7 @@ cmake_policy(SET CMP0042 NEW)
 ###
 # compilation options
 ###
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
 
 
 ###
