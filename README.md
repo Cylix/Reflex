@@ -1,6 +1,24 @@
 # cpp_reflection
 Simple reflection system in C++.
 
+## Requirements
+* C++14
+* Boost.PP includes
+
+## Compiling
+The library uses `cmake`. In order to build the library, follow these steps:
+
+```bash
+git clone https://github.com/Cylix/cpp_reflection.git
+cd cpp_reflection
+mkdir build
+cd build
+cmake ..
+make -j
+```
+
+Then, you just have to link the `cpp_reflection` library with your project.
+
 ## Register class
 In order to enable reflection, we must explicitly "register" our class.
 
