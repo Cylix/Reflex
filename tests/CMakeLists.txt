@@ -35,7 +35,7 @@ endforeach()
 # executable
 ###
 add_executable(${PROJECT} ${SOURCES})
-target_link_libraries(${PROJECT} cpp_reflection gtest)
+target_link_libraries(${PROJECT} cpp_reflection gtest pthread)
 set_target_properties(${PROJECT}
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
