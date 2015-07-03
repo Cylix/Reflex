@@ -103,6 +103,8 @@ int main(void) {
 * Making reflection on the same object
 * Getting a reflectable object
 * Providing facility functions (for example, unregister member function or type)
+* Passing arguments during reflection [IN PROGRESS]
+* Reflection on non-member function
 * ...
 
 ## Author
