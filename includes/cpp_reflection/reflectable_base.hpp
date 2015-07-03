@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cpp_reflection/callable_base.hpp"
+
 namespace cpp_reflection {
 
 class reflectable_base {
@@ -16,8 +18,8 @@ public:
     //! returns the name of the registered reflectable class
     virtual const std::string& get_name(void) const = 0;
 
-    //! call member function by string name
-    virtual void call(const std::string& function_name) const = 0;
+    //! get function by name
+    virtual const std::shared_ptr<callable_base>& get_function(const std::string& function_name) const = 0;
 
     //! is member function registered
     virtual bool is_registered(const std::string& function_name) const = 0;

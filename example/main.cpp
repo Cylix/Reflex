@@ -5,20 +5,33 @@
 
 class SomeClass {
 public:
-    void fct(void) {
-        std::cout << "fct()" << std::endl;
+    int add(int nb1, int nb2) {
+        std::cout << "add(" << nb1 << ", " << nb2 << ")" << std::endl;
+        return nb1 + nb2;
     }
 
-    void other_fct(void) {
-        std::cout << "other_fct()" << std::endl;
+    int sub(int nb1, int nb2) {
+        std::cout << "sub(" << nb1 << ", " << nb2 << ")" << std::endl;
+        return nb1 - nb2;
+    }
+
+    std::string concat(const std::string& str, unsigned int nb) {
+        std::cout << "concat(" << str << ", " << nb << ")" << std::endl;
+        return str + std::to_string(nb);
     }
 };
 
-REGISTER_REFLECTABLE(SomeClass, (fct)(other_fct))
+REGISTER_REFLECTABLE(SomeClass, (add)(sub)(concat))
 
 int main(void) {
-    cpp_reflection::reflection_manager::make_reflection("SomeClass", "fct");
-    cpp_reflection::reflection_manager::make_reflection("SomeClass", "other_fct");
+    auto res1 = cpp_reflection::reflection_manager::make_reflection<int, int, int>("SomeClass", "add", 30, 12);
+    std::cout << res1 << std::endl;
+
+    auto res2 = cpp_reflection::reflection_manager::make_reflection<int, int, int>("SomeClass", "sub", 44, 2);
+    std::cout << res2 << std::endl;
+
+    auto res3 = cpp_reflection::reflection_manager::make_reflection<std::string, const std::string&, unsigned int>("SomeClass", "concat", std::string("hello"), 42);
+    std::cout << res3 << std::endl;
 
     return 0;
 }
