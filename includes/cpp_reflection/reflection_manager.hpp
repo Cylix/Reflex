@@ -2,6 +2,7 @@
 
 #include <list>
 #include <string>
+#include <algorithm>
 
 #include "cpp_reflection/callable.hpp"
 #include "cpp_reflection/reflectable_base.hpp"

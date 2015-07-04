@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "cpp_reflection/callable_base.hpp"
 
 namespace cpp_reflection {
