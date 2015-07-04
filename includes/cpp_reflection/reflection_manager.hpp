@@ -15,36 +15,16 @@ namespace cpp_reflection {
 //! it stores reflectable object that are used for reflection
 class reflection_manager {
 public:
-    //! register a new reflectable
-    //! this reflectable will later can be used for reflection
-    static void register_reflectable(const reflectable_base* reflectable);
-
-    //! make reflection
-    template <typename ReturnType, typename... Params>
-    static ReturnType make_reflection(const std::string& class_name, const std::string& function_name, Params... params) {
-        return get_instance()._make_reflection<ReturnType, Params...>(class_name, function_name, params...);
-    }
-
-private:
     //! singleton
     static reflection_manager& get_instance(void);
 
-    //! ctor & dtor
-    reflection_manager(void) = default;
-    ~reflection_manager(void) = default;
+    //! register a new reflectable
+    //! this reflectable will later can be used for reflection
+    void register_reflectable(const reflectable_base* reflectable);
 
-    //! copy ctor & assignment operator
-    reflection_manager(const reflection_manager& manager) = default;
-    reflection_manager& operator=(const reflection_manager& manager) = default;
-
-private:
-    //! implementation
-    void _register_reflectable(const reflectable_base* reflectable);
-
-    //! _make_reflection
-    //! this is where the reflection is done
+    //! make reflection
     template <typename ReturnType, typename... Params>
-    ReturnType _make_reflection(const std::string& class_name, const std::string& function_name, Params... params) {
+    ReturnType make_reflection(const std::string& class_name, const std::string& function_name, Params... params) {
         //! we first search for the reflectable object matching the class name
         auto it = std::find_if(m_types.begin(), m_types.end(), [class_name](const auto& type) {
             return type->get_name() == class_name;
@@ -68,6 +48,15 @@ private:
         //! if everything is ok, we call the function
         return (*fct)(params...);
     }
+
+private:
+    //! ctor & dtor
+    reflection_manager(void) = default;
+    ~reflection_manager(void) = default;
+
+    //! copy ctor & assignment operator
+    reflection_manager(const reflection_manager& manager) = default;
+    reflection_manager& operator=(const reflection_manager& manager) = default;
 
 private:
     //! registered types
