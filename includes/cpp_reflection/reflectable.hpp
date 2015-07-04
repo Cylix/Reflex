@@ -16,6 +16,11 @@
 
 namespace cpp_reflection {
 
+//! reflectable class
+//! contains information about registered class (class name, member functions name and member functions pointers)
+//! inherits from reflectable_base in order to store reflectables of different types in the same container
+//!
+//! This class registered itself in the reflection_manager and is used by the manager during reflection
 template <typename Type>
 class reflectable : public reflectable_base {
 public:
@@ -34,14 +39,17 @@ public:
     reflectable& operator=(const reflectable& reflectable) = default;
 
 public:
-    // TO DO: COMMENT
+    //! unpack Fcts... variadic template
     template <typename Fct, typename... Fcts>
     void register_member_function(const std::pair<std::string, Fct> fct, Fcts... fcts) {
         register_member_function(fct);
         register_member_function(fcts...);
     }
 
-    // TO DO: COMMENT
+    //! register_member_function
+    //! in order to have an equivalent of std::bind with default std::placeholders, we use closures
+    //! this closure has the same signature than the registered function and simply forwards its parameters to the function
+    //! the closure is stored inside a callable<> object
     template <typename ReturnType, typename... Params>
     void register_member_function(const std::pair<std::string, ReturnType (Type::*)(Params...)> fct) {
         m_member_functions[fct.first] = std::make_shared<callable<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
@@ -73,11 +81,12 @@ private:
     std::string m_name;
 
     //! list of functions for this object
+    //! associate function name to a callable<> object
     std::map<std::string, std::shared_ptr<callable_base>> m_member_functions;
 };
 
 //! this define creates a static reflectable
-//! REGISTER_REFLECTABLE(type, (fct)) will generates a static reflectable<type> reflectable_int("type", { { "fct", &type::fct } }) var
+//! REGISTER_REFLECTABLE(type, (fct)(other_fct)) will generates a static reflectable<type> reflectable_int("type", { "fct", &type::fct }, { "other_fct", &type::other_fct }) var
 //! since it is static, the type is registered at program startup
 #define TO_STRING(val) #val
 #define MAKE_REGISTERABLE_FUNCTION(r, type, i, function) BOOST_PP_COMMA_IF(i) std::make_pair( std::string(TO_STRING(function)), &type::function )

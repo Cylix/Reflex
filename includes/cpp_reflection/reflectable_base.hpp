@@ -6,6 +6,8 @@
 
 namespace cpp_reflection {
 
+//! reflectable<> base class
+//! used for storing reflectable<> of different types in the same container
 class reflectable_base {
 public:
     //! ctor & dotr
