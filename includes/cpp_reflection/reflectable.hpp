@@ -29,7 +29,7 @@ public:
     reflectable(const std::string& name, Fcts... fcts)
     : m_name(name) {
         reflection_manager::register_reflectable(this);
-        register_member_function(fcts...);
+        register_function(fcts...);
     }
 
     ~reflectable(void) = default;
@@ -41,19 +41,28 @@ public:
 public:
     //! unpack Fcts... variadic template
     template <typename Fct, typename... Fcts>
-    void register_member_function(const std::pair<std::string, Fct> fct, Fcts... fcts) {
-        register_member_function(fct);
-        register_member_function(fcts...);
+    void register_function(const std::pair<std::string, Fct> fct, Fcts... fcts) {
+        register_function(fct);
+        register_function(fcts...);
     }
 
-    //! register_member_function
+    //! register_function for member functions
     //! in order to have an equivalent of std::bind with default std::placeholders, we use closures
     //! this closure has the same signature than the registered function and simply forwards its parameters to the function
     //! the closure is stored inside a callable<> object
     template <typename ReturnType, typename... Params>
-    void register_member_function(const std::pair<std::string, ReturnType (Type::*)(Params...)> fct) {
+    void register_function(const std::pair<std::string, ReturnType (Type::*)(Params...)> fct) {
         m_member_functions[fct.first] = std::make_shared<callable<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
             return (Type().*fct.second)(params...);
+        });
+    }
+
+    //! register_function for non member functions (static)
+    //! same behavior as explained above
+    template <typename ReturnType, typename... Params>
+    void register_function(const std::pair<std::string, ReturnType (*)(Params...)> fct) {
+        m_member_functions[fct.first] = std::make_shared<callable<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
+            return (fct.second)(params...);
         });
     }
 

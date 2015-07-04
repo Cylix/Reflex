@@ -14,7 +14,7 @@ public:
         return nb1 - nb2;
     }
 
-    std::string concat(const std::string& str, unsigned int nb) {
+    static std::string concat(const std::string& str, unsigned int nb) {
         std::cout << "concat(" << str << ", " << nb << ")" << std::endl;
         return str + std::to_string(nb);
     }
