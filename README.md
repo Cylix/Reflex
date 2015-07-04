@@ -89,7 +89,7 @@ This macro will create a static object of type `reflectable<SomeClass>`.
 For example `REGISTER_CLASS_FUNCTIONS(SomeClass, (fct)(other_fct))` will generates the following code:
 
 ```cpp
-static reflectable<SomeClass> reflectable_int(
+static reflectable<SomeClass> reflectable_SomeClass(
     "SomeClass",
     { "fct", &SomeClass::fct },
     { "other_fct", &SomeClass::other_fct }
