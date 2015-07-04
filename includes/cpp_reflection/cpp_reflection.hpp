@@ -20,12 +20,17 @@ struct reflection_maker;
 //! this way, we can do make_reflection<void(int, int)>::invoke(...)
 template <typename ReturnType, typename... Params>
 struct reflection_maker<ReturnType(Params...)> {
-    static ReturnType invoke(const std::string& class_name, const std::string& function_name, Params... params) {
-        return reflection_manager::get_instance().invoke<ReturnType, Params...>(class_name, function_name, params...);
+    static ReturnType invoke_class_function_on_new(const std::string& class_name, const std::string& function_name, Params... params) {
+        return reflection_manager::get_instance().invoke_class_function_on_new<ReturnType, Params...>(class_name, function_name, params...);
     }
 
-    static ReturnType invoke(const std::string& function_name, Params... params) {
-        return reflection_manager::get_instance().invoke<ReturnType, Params...>("", function_name, params...);
+    template <typename Type>
+    static ReturnType invoke_class_function_on_given(Type* obj, const std::string& class_name, const std::string& function_name, Params... params) {
+        return reflection_manager::get_instance().invoke_class_function_on_given<Type, ReturnType, Params...>(obj, class_name, function_name, params...);
+    }
+
+    static ReturnType invoke_function(const std::string& function_name, Params... params) {
+        return reflection_manager::get_instance().invoke_function<ReturnType, Params...>(function_name, params...);
     }
 };
 

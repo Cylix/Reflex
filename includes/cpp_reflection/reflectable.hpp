@@ -10,6 +10,7 @@
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 
 #include "cpp_reflection/function.hpp"
+#include "cpp_reflection/class_function.hpp"
 #include "cpp_reflection/reflectable_base.hpp"
 #include "cpp_reflection/reflection_manager.hpp"
 #include "cpp_reflection/reflection_exception.hpp"
@@ -56,18 +57,30 @@ public:
     //! the closure is stored inside a function<> object
     template <typename ReturnType, typename... Params>
     void register_function(const std::pair<std::string, ReturnType (Type::*)(Params...)> fct) {
-        m_member_functions[fct.first] = std::make_shared<function<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
+        auto invoke_on_new_instance = [=] (Params... params) -> ReturnType {
             return (Type().*fct.second)(params...);
-        });
+        };
+
+        auto invoke_on_given_instance = [=] (Type* obj, Params... params) -> ReturnType {
+            return std::bind(fct.second, obj, params...)();
+        };
+
+        m_member_functions[fct.first] = {
+            std::make_shared<class_function<ReturnType(Params...)>>(invoke_on_new_instance),
+            std::make_shared<class_function2<Type, ReturnType(Params...)>>(invoke_on_given_instance),
+        };
     }
 
     //! register_function for non member functions (static)
     //! same behavior as explained above
     template <typename ReturnType, typename... Params>
     void register_function(const std::pair<std::string, ReturnType (*)(Params...)> fct) {
-        m_member_functions[fct.first] = std::make_shared<function<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
-            return (fct.second)(params...);
-        });
+        m_member_functions[fct.first] = {
+            std::make_shared<function<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
+                return (fct.second)(params...);
+            }),
+            nullptr
+        };
     }
 
     //! get function by name
@@ -75,7 +88,14 @@ public:
         if (not is_registered(function_name))
             throw reflection_exception(m_name + "::" + function_name + " is not registered");
 
-        return m_member_functions.at(function_name);
+        return m_member_functions.at(function_name).first;
+    }
+
+    const std::shared_ptr<function_base>& get_function_on_given_instance(const std::string& function_name) const {
+        if (not is_registered(function_name))
+            throw reflection_exception(m_name + "::" + function_name + " is not registered");
+
+        return m_member_functions.at(function_name).second;
     }
 
     //! is member function registered
@@ -95,7 +115,7 @@ private:
 
     //! list of functions for this object
     //! associate function name to a function<> object
-    std::map<std::string, std::shared_ptr<function_base>> m_member_functions;
+    std::map<std::string, std::pair<std::shared_ptr<function_base>, std::shared_ptr<function_base>>> m_member_functions;
 };
 
 } //! cpp_reflection
