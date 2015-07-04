@@ -1,7 +1,6 @@
 #include <iostream>
 
-#include "cpp_reflection/reflectable.hpp"
-#include "cpp_reflection/reflection_manager.hpp"
+#include "cpp_reflection/cpp_reflection.hpp"
 
 class SomeClass {
 public:
@@ -24,13 +23,13 @@ public:
 REGISTER_REFLECTABLE(SomeClass, (add)(sub)(concat))
 
 int main(void) {
-    auto res1 = cpp_reflection::reflection_manager::make_reflection<int, int, int>("SomeClass", "add", 30, 12);
+    auto res1 = cpp_reflection::make_reflection<int(int, int)>::call("SomeClass", "add", 30, 12);
     std::cout << res1 << std::endl;
 
-    auto res2 = cpp_reflection::reflection_manager::make_reflection<int, int, int>("SomeClass", "sub", 44, 2);
+    auto res2 = cpp_reflection::make_reflection<int(int, int)>::call("SomeClass", "sub", 44, 2);
     std::cout << res2 << std::endl;
 
-    auto res3 = cpp_reflection::reflection_manager::make_reflection<std::string, const std::string&, unsigned int>("SomeClass", "concat", std::string("hello"), 42);
+    auto res3 = cpp_reflection::make_reflection<std::string(const std::string&, unsigned int)>::call("SomeClass", "concat", std::string("hello"), 42);
     std::cout << res3 << std::endl;
 
     return 0;
