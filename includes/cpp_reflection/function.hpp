@@ -2,28 +2,28 @@
 
 #include <functional>
 
-#include "cpp_reflection/callable_base.hpp"
+#include "cpp_reflection/function_base.hpp"
 
 namespace cpp_reflection {
 
 template <typename T>
-class callable;
+class function;
 
-//! callable class
+//! function class
 //! contains an std::function corresponding to the class template
 //!
-//! simple wrapper of std::function, but inheriting from callable_base
+//! simple wrapper of std::function, but inheriting from function_base
 //! useful for storing std::function of different types in the same container
 //!
-//! uses partial template specialization for std::function like syntax (callable<void(int)>)
+//! uses partial template specialization for std::function like syntax (function<void(int)>)
 template <typename ReturnType, typename... Params>
-class callable<ReturnType(Params...)> : public callable_base {
+class function<ReturnType(Params...)> : public function_base {
 public:
-    callable(const std::function<ReturnType(Params...)>& fct) : m_fct(fct) {}
-    ~callable(void) = default;
+    function(const std::function<ReturnType(Params...)>& fct) : m_fct(fct) {}
+    ~function(void) = default;
 
-    callable(const callable&) = default;
-    callable& operator=(const callable&) = default;
+    function(const function&) = default;
+    function& operator=(const function&) = default;
 
 public:
     //! functor for calling internal std::function

@@ -2,11 +2,11 @@
 
 namespace cpp_reflection {
 
-//! callable_base class
+//! function_base class
 //! empty base class inherited by callable class
-class callable_base {
+class function_base {
 public:
-    virtual ~callable_base(void) = default;
+    virtual ~function_base(void) = default;
 };
 
 } //! cpp_reflection

@@ -9,7 +9,7 @@
 #include <boost/preprocessor/seq/for_each_i.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 
-#include "cpp_reflection/callable.hpp"
+#include "cpp_reflection/function.hpp"
 #include "cpp_reflection/reflectable_base.hpp"
 #include "cpp_reflection/reflection_manager.hpp"
 #include "cpp_reflection/reflection_exception.hpp"
@@ -53,10 +53,10 @@ public:
     //! register_function for member functions
     //! in order to have an equivalent of std::bind with default std::placeholders, we use closures
     //! this closure has the same signature than the registered function and simply forwards its parameters to the function
-    //! the closure is stored inside a callable<> object
+    //! the closure is stored inside a function<> object
     template <typename ReturnType, typename... Params>
     void register_function(const std::pair<std::string, ReturnType (Type::*)(Params...)> fct) {
-        m_member_functions[fct.first] = std::make_shared<callable<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
+        m_member_functions[fct.first] = std::make_shared<function<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
             return (Type().*fct.second)(params...);
         });
     }
@@ -65,13 +65,13 @@ public:
     //! same behavior as explained above
     template <typename ReturnType, typename... Params>
     void register_function(const std::pair<std::string, ReturnType (*)(Params...)> fct) {
-        m_member_functions[fct.first] = std::make_shared<callable<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
+        m_member_functions[fct.first] = std::make_shared<function<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
             return (fct.second)(params...);
         });
     }
 
     //! get function by name
-    const std::shared_ptr<callable_base>& get_function(const std::string& function_name) const {
+    const std::shared_ptr<function_base>& get_function(const std::string& function_name) const {
         if (not is_registered(function_name))
             throw reflection_exception(m_name + "::" + function_name + " is not registered");
 
@@ -94,8 +94,8 @@ private:
     std::string m_name;
 
     //! list of functions for this object
-    //! associate function name to a callable<> object
-    std::map<std::string, std::shared_ptr<callable_base>> m_member_functions;
+    //! associate function name to a function<> object
+    std::map<std::string, std::shared_ptr<function_base>> m_member_functions;
 };
 
 } //! cpp_reflection

@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 
-#include "cpp_reflection/callable.hpp"
+#include "cpp_reflection/function.hpp"
 #include "cpp_reflection/reflectable_base.hpp"
 #include "cpp_reflection/reflection_exception.hpp"
 
@@ -34,12 +34,12 @@ public:
         if (it == m_types.end())
             throw reflection_exception("Class " + class_name + " is not registered as reflectable.");
 
-        //! we ask the reflectable object for a callable<> object matching the function name
+        //! we ask the reflectable object for a function<> object matching the function name
         //! get_function will throw a reflection_exception if function is not registered
         //!
         //! it also returns a generic std::shared_ptr<callable_base>
-        //! we dynamically cast this pointer to a callable<> object templated on the expected function signature
-        auto fct = std::dynamic_pointer_cast<callable<ReturnType(Params...)>>((*it)->get_function(function_name));
+        //! we dynamically cast this pointer to a function<> object templated on the expected function signature
+        auto fct = std::dynamic_pointer_cast<function<ReturnType(Params...)>>((*it)->get_function(function_name));
 
         //! if dynamic_cast failed, it means that the registered function has a different signature than the expected signature
         if (not fct)
