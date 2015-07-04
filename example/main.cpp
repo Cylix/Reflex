@@ -34,19 +34,19 @@ void basic_fct_2(void) {
 REGISTER_FUNCTIONS((basic_fct_1)(basic_fct_2))
 
 int main(void) {
-    auto res1 = cpp_reflection::make_reflection<int(int, int)>::call("SomeClass", "add", 30, 12);
+    auto res1 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "add", 30, 12);
     std::cout << res1 << std::endl;
 
-    auto res2 = cpp_reflection::make_reflection<int(int, int)>::call("SomeClass", "sub", 44, 2);
+    auto res2 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "sub", 44, 2);
     std::cout << res2 << std::endl;
 
-    auto res3 = cpp_reflection::make_reflection<std::string(const std::string&, unsigned int)>::call("SomeClass", "concat", std::string("hello"), 42);
+    auto res3 = cpp_reflection::reflection_maker<std::string(const std::string&, unsigned int)>::invoke("SomeClass", "concat", std::string("hello"), 42);
     std::cout << res3 << std::endl;
 
-    auto res4 = cpp_reflection::make_reflection<int(float, char)>::call("basic_fct_1", 4.2, 'z');
+    auto res4 = cpp_reflection::reflection_maker<int(float, char)>::invoke("basic_fct_1", 4.2, 'z');
     std::cout << res4 << std::endl;
 
-    cpp_reflection::make_reflection<void()>::call("basic_fct_2");
+    cpp_reflection::reflection_maker<void()>::invoke("basic_fct_2");
 
     return 0;
 }

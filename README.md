@@ -73,13 +73,13 @@ We just need to do `REGISTER_FUNCTIONS((fct)(other_fct))` and this will register
 ## Making Reflection
 Each time we register a type and its member functions, it stores this type into the `reflection_manager` singleton class.
 
-This class is the class which does the reflection. By calling `reflection_manager::make_reflection<RetVal, Params...>("class_name", "function_name", ...)`, this will call `class_name::function_name` (on a new object).
+This class is the class which does the reflection. By calling `reflection_manager::invoke<RetVal, Params...>("class_name", "function_name", ...)`, this will call `class_name::function_name` (on a new object).
 
-A facility function with a more elegant syntax is also provided: `make_reflection<RetVal(Params...)>::call("class_name", "function_name", ...)`. It provides the std::function template syntax which is more readable.
+A facility function with a more elegant syntax is also provided: `reflection_maker<RetVal(Params...)>::invoke("class_name", "function_name", ...)`. It provides the std::function template syntax which is more readable.
 
-If we take the previous example, by calling `cpp_reflection::make_reflection<void(const std::string&, float)>::call("SomeClass", "other_fct", some_str, some_float);`, we will call `SomeClass::fct`.
+If we take the previous example, by calling `cpp_reflection::reflection_maker<void(const std::string&, float)>::invoke("SomeClass", "other_fct", some_str, some_float);`, we will invoke `SomeClass::fct`.
 
-`make_reflection::call` is overloaded for C-Style functions: `make_reflection<RetVal(Params...)>::call("function_name", ...)`.
+`reflection_maker::invoke` is overloaded for C-Style functions: `reflection_maker<RetVal(Params...)>::invoke("function_name", ...)`.
 
 # How does it work
 `REGISTER_CLASS_FUNCTIONS` and `REGISTER_FUNCTIONS` macros are based on the `REGISTER_REFLECTABLE` macro
@@ -149,19 +149,19 @@ void basic_fct_2(void) {
 REGISTER_FUNCTIONS((basic_fct_1)(basic_fct_2))
 
 int main(void) {
-    auto res1 = cpp_reflection::make_reflection<int(int, int)>::call("SomeClass", "add", 30, 12);
+    auto res1 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "add", 30, 12);
     std::cout << res1 << std::endl;
 
-    auto res2 = cpp_reflection::make_reflection<int(int, int)>::call("SomeClass", "sub", 44, 2);
+    auto res2 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "sub", 44, 2);
     std::cout << res2 << std::endl;
 
-    auto res3 = cpp_reflection::make_reflection<std::string(const std::string&, unsigned int)>::call("SomeClass", "concat", std::string("hello"), 42);
+    auto res3 = cpp_reflection::reflection_maker<std::string(const std::string&, unsigned int)>::invoke("SomeClass", "concat", std::string("hello"), 42);
     std::cout << res3 << std::endl;
 
-    auto res4 = cpp_reflection::make_reflection<int(float, char)>::call("basic_fct_1", 4.2, 'z');
+    auto res4 = cpp_reflection::reflection_maker<int(float, char)>::invoke("basic_fct_1", 4.2, 'z');
     std::cout << res4 << std::endl;
 
-    cpp_reflection::make_reflection<void()>::call("basic_fct_2");
+    cpp_reflection::reflection_maker<void()>::invoke("basic_fct_2");
 
     return 0;
 }
@@ -173,6 +173,9 @@ int main(void) {
 * Getting a reflectable object
 * Providing facility functions (for example, unregister member function or type)
 * Handling multiple REGISTER_FUNCTIONS in same project
+* Handle reflection for namespaced classes
+* make documentation
+* Variables
 * ...
 
 ## Author

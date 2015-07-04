@@ -8,7 +8,7 @@
 namespace cpp_reflection {
 
 template <typename T>
-struct make_reflection;
+struct reflection_maker;
 
 //! partial template specialization is not available for functions
 //! so we can't have an std::function like syntax for reflection_manager::make_reflection<>
@@ -17,15 +17,15 @@ struct make_reflection;
 //!
 //! we get around of this limitation by wrapping this function call inside a simple struct
 //! this struct is partially specialized
-//! this way, we can do make_reflection<void(int, int)>::call(...)
+//! this way, we can do make_reflection<void(int, int)>::invoke(...)
 template <typename ReturnType, typename... Params>
-struct make_reflection<ReturnType(Params...)> {
-    static ReturnType call(const std::string& class_name, const std::string& function_name, Params... params) {
-        return reflection_manager::get_instance().make_reflection<ReturnType, Params...>(class_name, function_name, params...);
+struct reflection_maker<ReturnType(Params...)> {
+    static ReturnType invoke(const std::string& class_name, const std::string& function_name, Params... params) {
+        return reflection_manager::get_instance().invoke<ReturnType, Params...>(class_name, function_name, params...);
     }
 
-    static ReturnType call(const std::string& function_name, Params... params) {
-        return reflection_manager::get_instance().make_reflection<ReturnType, Params...>("", function_name, params...);
+    static ReturnType invoke(const std::string& function_name, Params... params) {
+        return reflection_manager::get_instance().invoke<ReturnType, Params...>("", function_name, params...);
     }
 };
 

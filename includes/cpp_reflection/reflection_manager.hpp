@@ -24,7 +24,7 @@ public:
 
     //! make reflection
     template <typename ReturnType, typename... Params>
-    ReturnType make_reflection(const std::string& class_name, const std::string& function_name, Params... params) {
+    ReturnType invoke(const std::string& class_name, const std::string& function_name, Params... params) {
         //! we first search for the reflectable object matching the class name
         auto it = std::find_if(m_types.begin(), m_types.end(), [class_name](const auto& type) {
             return type->get_name() == class_name;
