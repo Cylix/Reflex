@@ -20,7 +20,18 @@ public:
     }
 };
 
-REGISTER_REFLECTABLE(SomeClass, (add)(sub)(concat))
+REGISTER_CLASS_FUNCTIONS(SomeClass, (add)(sub)(concat))
+
+int basic_fct_1(float f, char c) {
+    std::cout << "basic_fct_1(" << f << ", " << c << ")" << std::endl;
+    return 42;
+}
+
+void basic_fct_2(void) {
+    std::cout << "basic_fct_2()" << std::endl;
+}
+
+REGISTER_FUNCTIONS((basic_fct_1)(basic_fct_2))
 
 int main(void) {
     auto res1 = cpp_reflection::make_reflection<int(int, int)>::call("SomeClass", "add", 30, 12);
@@ -31,6 +42,11 @@ int main(void) {
 
     auto res3 = cpp_reflection::make_reflection<std::string(const std::string&, unsigned int)>::call("SomeClass", "concat", std::string("hello"), 42);
     std::cout << res3 << std::endl;
+
+    auto res4 = cpp_reflection::make_reflection<int(float, char)>::call("basic_fct_1", 4.2, 'z');
+    std::cout << res4 << std::endl;
+
+    cpp_reflection::make_reflection<void()>::call("basic_fct_2");
 
     return 0;
 }

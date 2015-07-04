@@ -16,12 +16,16 @@
 
 namespace cpp_reflection {
 
+//! empty class
+//! used to template reflectable<> class when registering c-functions
+class Void;
+
 //! reflectable class
 //! contains information about registered class (class name, member functions name and member functions pointers)
 //! inherits from reflectable_base in order to store reflectables of different types in the same container
 //!
 //! This class registered itself in the reflection_manager and is used by the manager during reflection
-template <typename Type>
+template <typename Type = Void>
 class reflectable : public reflectable_base {
 public:
     //! ctor & dotr
@@ -93,12 +97,5 @@ private:
     //! associate function name to a callable<> object
     std::map<std::string, std::shared_ptr<callable_base>> m_member_functions;
 };
-
-//! this define creates a static reflectable
-//! REGISTER_REFLECTABLE(type, (fct)(other_fct)) will generates a static reflectable<type> reflectable_int("type", { "fct", &type::fct }, { "other_fct", &type::other_fct }) var
-//! since it is static, the type is registered at program startup
-#define TO_STRING(val) #val
-#define MAKE_REGISTERABLE_FUNCTION(r, type, i, function) BOOST_PP_COMMA_IF(i) std::make_pair( std::string(TO_STRING(function)), &type::function )
-#define REGISTER_REFLECTABLE(type, functions) static cpp_reflection::reflectable<type> reflectable_##type(#type, BOOST_PP_SEQ_FOR_EACH_I( MAKE_REGISTERABLE_FUNCTION, type, functions ));
 
 } //! cpp_reflection
