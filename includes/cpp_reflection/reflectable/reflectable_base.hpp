@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <memory>
 
 #include "cpp_reflection/function/function.hpp"
@@ -24,6 +25,9 @@ public:
 
     //! get function by name
     virtual const function& get_function(const std::string& function_name) const = 0;
+
+    //! return all functions
+    virtual const std::map<std::string, function> get_functions(void) const = 0;
 
     //! is member function registered
     virtual bool is_registered(const std::string& function_name) const = 0;

@@ -27,8 +27,6 @@ public:
     callable_without_instance(const callable_without_instance&) = default;
     callable_without_instance& operator=(const callable_without_instance&) = default;
 
-    bool is_member_function(void) const { return true; }
-
 public:
     //! functor for calling internal std::function
     ReturnType operator()(Params... params) {

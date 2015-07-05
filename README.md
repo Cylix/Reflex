@@ -169,9 +169,8 @@ int main(void) {
 
 ## To Do
 
-* Making reflection on the same object
-* Getting a reflectable object
-* Providing facility functions (for example, unregister member function or type)
+* Template clear syntax
+* Type -> not only pointer (ref, obj, shared_ptr)
 * Handling multiple REGISTER_FUNCTIONS in same project
 * Handle reflection for namespaced classes
 * make documentation

@@ -29,7 +29,7 @@ public:
 
     //! member function call on new instance
     //! c-style functions
-    // static member functions
+    //! static member functions
     template <typename ReturnType, typename... Params>
     ReturnType invoke(Params... params) {
         if (not m_functions.callable_without_obj)

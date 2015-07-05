@@ -25,20 +25,31 @@ public:
     //! make reflection
     template <typename ReturnType, typename... Params>
     ReturnType invoke(const std::string& class_name, const std::string& function_name, Params... params) {
-        auto it = std::find_if(m_types.begin(), m_types.end(), [class_name](const auto& type) {
-            return type->get_name() == class_name;
-        });
+        auto reflectable = find_reflectable(class_name);
+        auto fct = reflectable->get_function(function_name);
 
-        if (it == m_types.end())
-            throw reflection_exception("Class " + class_name + " is not registered as reflectable.");
-
-        auto fct = (*it)->get_function(function_name);
         return fct.template invoke<ReturnType, Params...>(params...);
     }
 
     //! make reflection
     template <typename Type, typename ReturnType, typename... Params>
     ReturnType invoke(Type* obj, const std::string& class_name, const std::string& function_name, Params... params) {
+        auto reflectable = find_reflectable(class_name);
+        auto fct = reflectable->get_function(function_name);
+
+        return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
+    }
+
+    const reflectable_base& get_class(const std::string& class_name) {
+        return *find_reflectable(class_name);
+    }
+
+    const reflectable_base& get_functions(void) const {
+        return *find_reflectable("");
+    }
+
+private:
+    const reflectable_base* find_reflectable(const std::string& class_name) const {
         auto it = std::find_if(m_types.begin(), m_types.end(), [class_name](const auto& type) {
             return type->get_name() == class_name;
         });
@@ -46,8 +57,7 @@ public:
         if (it == m_types.end())
             throw reflection_exception("Class " + class_name + " is not registered as reflectable.");
 
-        auto fct = (*it)->get_function(function_name);
-        return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
+        return *it;
     }
 
 private:

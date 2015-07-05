@@ -27,8 +27,6 @@ public:
     callable_with_instance(const callable_with_instance&) = default;
     callable_with_instance& operator=(const callable_with_instance&) = default;
 
-    bool is_member_function(void) const { return true; }
-
 public:
     ReturnType operator()(Type* obj, Params... params) {
         return m_fct(obj, params...);

@@ -97,6 +97,11 @@ public:
         return m_functions.at(function_name);
     }
 
+    //! return functions list
+    const std::map<std::string, function> get_functions(void) const {
+        return m_functions;
+    }
+
     //! is member function registered
     bool is_registered(const std::string& function_name) const {
         return m_functions.count(function_name);
