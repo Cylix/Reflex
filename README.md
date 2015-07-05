@@ -169,13 +169,15 @@ int main(void) {
 
 ## To Do
 
-* Template clear syntax
-* Type -> not only pointer (ref, obj, shared_ptr)
-* Handling multiple REGISTER_FUNCTIONS in same project
-* Handle reflection for namespaced classes
-* make documentation
-* Variables
-* ...
+| Type | Description | Priority | Status |
+|------|-------------|----------|--------|
+| Improvement | Add unit tests | High | To Do |
+| Improvement | Add full documentation | Moderate | To Do |
+| Improvement | Clear syntax for templates (<ReturnType, Params...> -> <ReturnType(Params)> whenever it is possible) | Low | To Do |
+| Improvement | Reflection with instance: allow references, copy, shared_ptr and unique_ptr (not only raw pointer) | High | To Do |
+| Improvement | Handling case of multiple REGISTER_FUNCTIONS (or multiple REGISTER_CLASS_FUNCTIONS for same type) in a single project | Moderate | To Do |
+| BugFix | Handle reflection for namespaced classes | High | To Do |
+| Feature | Reflection for variables | Low | To Do |
 
 ## Author
 [Simon Ninon](http://simon-ninon.fr)
