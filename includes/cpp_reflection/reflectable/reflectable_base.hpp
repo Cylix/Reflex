@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "cpp_reflection/function/function_base.hpp"
+#include "cpp_reflection/function/function.hpp"
 
 namespace cpp_reflection {
 
@@ -23,9 +23,7 @@ public:
     virtual const std::string& get_name(void) const = 0;
 
     //! get function by name
-    virtual const std::shared_ptr<function_base>& get_function(const std::string& function_name) const = 0;
-    //! get function by name
-    virtual const std::shared_ptr<function_base>& get_function_on_given_instance(const std::string& function_name) const = 0;
+    virtual const function& get_function(const std::string& function_name) const = 0;
 
     //! is member function registered
     virtual bool is_registered(const std::string& function_name) const = 0;
