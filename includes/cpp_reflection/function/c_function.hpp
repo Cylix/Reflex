@@ -2,14 +2,14 @@
 
 #include <functional>
 
-#include "cpp_reflection/function_base.hpp"
+#include "cpp_reflection/function/function_base.hpp"
 
 namespace cpp_reflection {
 
 template <typename T>
-class function;
+class c_function;
 
-//! function class
+//! c_function class
 //! contains an std::function corresponding to the class template
 //!
 //! simple wrapper of std::function, but inheriting from function_base
@@ -17,13 +17,13 @@ class function;
 //!
 //! uses partial template specialization for std::function like syntax (function<void(int)>)
 template <typename ReturnType, typename... Params>
-class function<ReturnType(Params...)> : public function_base {
+class c_function<ReturnType(Params...)> : public function_base {
 public:
-    function(const std::function<ReturnType(Params...)>& fct) : m_fct(fct) {}
-    ~function(void) = default;
+    c_function(const std::function<ReturnType(Params...)>& fct) : m_fct(fct) {}
+    ~c_function(void) = default;
 
-    function(const function&) = default;
-    function& operator=(const function&) = default;
+    c_function(const c_function&) = default;
+    c_function& operator=(const c_function&) = default;
 
     bool is_member_function(void) const { return false; }
 

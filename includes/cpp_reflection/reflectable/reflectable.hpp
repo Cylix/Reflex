@@ -9,9 +9,9 @@
 #include <boost/preprocessor/seq/for_each_i.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 
-#include "cpp_reflection/function.hpp"
-#include "cpp_reflection/class_function.hpp"
-#include "cpp_reflection/reflectable_base.hpp"
+#include "cpp_reflection/function/c_function.hpp"
+#include "cpp_reflection/function/class_function.hpp"
+#include "cpp_reflection/reflectable/reflectable_base.hpp"
 #include "cpp_reflection/reflection_manager.hpp"
 #include "cpp_reflection/reflection_exception.hpp"
 
@@ -76,7 +76,7 @@ public:
     template <typename ReturnType, typename... Params>
     void register_function(const std::pair<std::string, ReturnType (*)(Params...)> fct) {
         m_member_functions[fct.first] = {
-            std::make_shared<function<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
+            std::make_shared<c_function<ReturnType(Params...)>>([=] (Params... params) -> ReturnType {
                 return (fct.second)(params...);
             }),
             nullptr

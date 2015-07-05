@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "reflectable.hpp"
-#include "reflection_manager.hpp"
+#include "cpp_reflection/reflectable/reflectable.hpp"
+#include "cpp_reflection/reflection_manager.hpp"
 
 namespace cpp_reflection {
 

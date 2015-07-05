@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "cpp_reflection/function_base.hpp"
+#include "cpp_reflection/function/function_base.hpp"
 
 namespace cpp_reflection {
 

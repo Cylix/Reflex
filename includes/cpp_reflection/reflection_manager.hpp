@@ -4,10 +4,10 @@
 #include <string>
 #include <algorithm>
 
-#include "cpp_reflection/function.hpp"
-#include "cpp_reflection/class_function.hpp"
-#include "cpp_reflection/class_function2.hpp"
-#include "cpp_reflection/reflectable_base.hpp"
+#include "cpp_reflection/function/c_function.hpp"
+#include "cpp_reflection/function/class_function.hpp"
+#include "cpp_reflection/function/class_function2.hpp"
+#include "cpp_reflection/reflectable/reflectable_base.hpp"
 #include "cpp_reflection/reflection_exception.hpp"
 
 namespace cpp_reflection {
@@ -54,7 +54,7 @@ public:
             return (*fct)(params...);
         }
         else {
-            auto fct = std::dynamic_pointer_cast<function<ReturnType(Params...)>>(fct_);
+            auto fct = std::dynamic_pointer_cast<c_function<ReturnType(Params...)>>(fct_);
 
             //! if dynamic_cast failed, it means that the registered function has a different signature than the expected signature
             if (not fct)
@@ -109,7 +109,7 @@ public:
         //!
         //! it also returns a generic std::shared_ptr<callable_base>
         //! we dynamically cast this pointer to a function<> object templated on the expected function signature
-        auto fct = std::dynamic_pointer_cast<function<ReturnType(Params...)>>((*it)->get_function(function_name));
+        auto fct = std::dynamic_pointer_cast<c_function<ReturnType(Params...)>>((*it)->get_function(function_name));
 
         //! if dynamic_cast failed, it means that the registered function has a different signature than the expected signature
         if (not fct)
