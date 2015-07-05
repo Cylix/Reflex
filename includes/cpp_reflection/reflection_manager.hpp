@@ -24,13 +24,11 @@ public:
 
     //! make reflection
     template <typename ReturnType, typename... Params>
-    ReturnType invoke_without_instance(const std::string& class_name, const std::string& function_name, Params... params) {
-        //! we first search for the reflectable object matching the class name
+    ReturnType invoke(const std::string& class_name, const std::string& function_name, Params... params) {
         auto it = std::find_if(m_types.begin(), m_types.end(), [class_name](const auto& type) {
             return type->get_name() == class_name;
         });
 
-        //! if nothing is found, class is not registered
         if (it == m_types.end())
             throw reflection_exception("Class " + class_name + " is not registered as reflectable.");
 
@@ -40,13 +38,11 @@ public:
 
     //! make reflection
     template <typename Type, typename ReturnType, typename... Params>
-    ReturnType invoke_with_instance(Type* obj, const std::string& class_name, const std::string& function_name, Params... params) {
-        //! we first search for the reflectable object matching the class name
+    ReturnType invoke(Type* obj, const std::string& class_name, const std::string& function_name, Params... params) {
         auto it = std::find_if(m_types.begin(), m_types.end(), [class_name](const auto& type) {
             return type->get_name() == class_name;
         });
 
-        //! if nothing is found, class is not registered
         if (it == m_types.end())
             throw reflection_exception("Class " + class_name + " is not registered as reflectable.");
 

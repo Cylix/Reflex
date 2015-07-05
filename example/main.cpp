@@ -46,27 +46,27 @@ void basic_fct_2(void) {
 REGISTER_FUNCTIONS((basic_fct_1)(basic_fct_2))
 
 int main(void) {
-    auto res1 = cpp_reflection::reflection_maker<int(int, int)>::invoke_class_function_on_new("SomeClass", "add", 30, 12);
+    auto res1 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "add", 30, 12);
     std::cout << res1 << std::endl;
 
-    auto res2 = cpp_reflection::reflection_maker<int(int, int)>::invoke_class_function_on_new("SomeClass", "sub", 44, 2);
+    auto res2 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "sub", 44, 2);
     std::cout << res2 << std::endl;
 
-    auto res3 = cpp_reflection::reflection_maker<std::string(const std::string&, unsigned int)>::invoke_class_function_on_new("SomeClass", "concat", std::string("hello"), 42);
+    auto res3 = cpp_reflection::reflection_maker<std::string(const std::string&, unsigned int)>::invoke("SomeClass", "concat", std::string("hello"), 42);
     std::cout << res3 << std::endl;
 
-    auto res4 = cpp_reflection::reflection_maker<int(float, char)>::invoke_function("basic_fct_1", 4.2, 'z');
+    auto res4 = cpp_reflection::reflection_maker<int(float, char)>::invoke("basic_fct_1", 4.2, 'z');
     std::cout << res4 << std::endl;
 
-    cpp_reflection::reflection_maker<void()>::invoke_function("basic_fct_2");
+    cpp_reflection::reflection_maker<void()>::invoke("basic_fct_2");
 
     SomeClass *s = new SomeClass;
-    auto res5 = cpp_reflection::reflection_maker<unsigned int()>::invoke_class_function_on_given(s, "SomeClass", "get_nb");
+    auto res5 = cpp_reflection::reflection_maker<unsigned int()>::invoke(s, "SomeClass", "get_nb");
     std::cout << res5 << std::endl;
 
-    cpp_reflection::reflection_maker<void(unsigned int)>::invoke_class_function_on_given(s, "SomeClass", "set_nb", 1234);
+    cpp_reflection::reflection_maker<void(unsigned int)>::invoke(s, "SomeClass", "set_nb", 1234);
 
-    auto res6 = cpp_reflection::reflection_maker<unsigned int()>::invoke_class_function_on_given(s, "SomeClass", "get_nb");
+    auto res6 = cpp_reflection::reflection_maker<unsigned int()>::invoke(s, "SomeClass", "get_nb");
     std::cout << res6 << std::endl;
 
     return 0;
