@@ -29,6 +29,7 @@
 
 # Project
 build
+deps
 
 # Emacs
 *~

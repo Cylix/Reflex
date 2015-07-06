@@ -92,7 +92,7 @@ public:
     //! get function by name
     const function& get_function(const std::string& function_name) const {
         if (not is_registered(function_name))
-            throw reflection_exception(m_name + "::" + function_name + " is not registered");
+            throw reflection_exception("Function " + m_name + "::" + function_name + " is not registered");
 
         return m_functions.at(function_name);
     }

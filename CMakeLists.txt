@@ -24,9 +24,24 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 
 ###
+# variables
+###
+set(DEPS_FOLDER ${PROJECT_SOURCE_DIR}/deps)
+set(GTEST_INCLUDES ${DEPS_FOLDER}/gtest/include)
+set(GTEST_LIBS ${DEPS_FOLDER}/gtest/lib)
+set(CPP_REFLECTION_INCLUDES ${PROJECT_SOURCE_DIR}/includes)
+
+
+###
 # includes
 ###
-include_directories(${PROJECT_SOURCE_DIR}/includes)
+include_directories(${CPP_REFLECTION_INCLUDES})
+
+
+###
+# link
+###
+link_directories(${GTEST_LIBS})
 
 
 ###
@@ -54,3 +69,11 @@ target_link_libraries(${PROJECT}_example ${PROJECT})
 set_target_properties(${PROJECT}_example
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
+
+
+###
+# tests
+###
+IF (BUILD_TESTING)
+    add_subdirectory(tests)
+ENDIF(BUILD_TESTING)

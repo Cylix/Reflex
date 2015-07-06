@@ -55,7 +55,7 @@ private:
         });
 
         if (it == m_types.end())
-            throw reflection_exception("Class " + class_name + " is not registered as reflectable.");
+            throw reflection_exception("Class " + class_name + " is not registered");
 
         return *it;
     }
