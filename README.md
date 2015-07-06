@@ -171,7 +171,7 @@ int main(void) {
 
 | Type | Description | Priority | Status |
 |------|-------------|----------|--------|
-| Improvement | Add unit tests | High | To Do |
+| Improvement | Improve test coverage | High | To Do |
 | Improvement | Add full documentation | Moderate | To Do |
 | Improvement | Clear syntax for templates (<ReturnType, Params...> -> <ReturnType(Params)> whenever it is possible) | Low | To Do |
 | Improvement | Reflection with instance: allow references, copy, shared_ptr and unique_ptr (not only raw pointer) | High | To Do |

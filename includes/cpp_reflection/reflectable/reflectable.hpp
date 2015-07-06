@@ -57,12 +57,12 @@ public:
     //! the closure is stored inside a function<> object
     template <typename ReturnType, typename... Params>
     void register_function(const std::pair<std::string, ReturnType (Type::*)(Params...)> fct) {
-        auto f_without_instance = [=] (Params... params) -> ReturnType {
-            return (Type().*fct.second)(params...);
+        auto f_without_instance = [fct] (Params... params) -> ReturnType {
+            return (Type().*fct.second)(std::ref(params)...);
         };
 
-        auto f_with_instance = [=] (Type* obj, Params... params) -> ReturnType {
-            return std::bind(fct.second, obj, params...)();
+        auto f_with_instance = [fct] (Type* obj, Params... params) -> ReturnType {
+            return std::bind(fct.second, obj, std::ref(params)...)();
         };
 
         m_functions[fct.first] = function{
@@ -77,8 +77,8 @@ public:
     //! same behavior as explained above
     template <typename ReturnType, typename... Params>
     void register_function(const std::pair<std::string, ReturnType (*)(Params...)> fct) {
-        auto f_without_instance = [=] (Params... params) -> ReturnType {
-            return (fct.second)(params...);
+        auto f_without_instance = [fct] (Params... params) -> ReturnType {
+            return (fct.second)(std::ref(params)...);
         };
 
         m_functions[fct.first] = function{
