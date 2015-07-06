@@ -17,9 +17,11 @@ public:
     void do_something(const std::string&, int& nb, char, float, int nb2) { nb = nb2; }
 
     int add(int nb1, int nb2) { return nb1 + nb2; }
+
+    static void static_fct(void) {}
 };
 
-REGISTER_CLASS_FUNCTIONS(some_class, (get_42)(do_something)(add)(get_nb)(set_nb))
+REGISTER_CLASS_FUNCTIONS(some_class, (get_42)(do_something)(add)(get_nb)(set_nb)(static_fct))
 
 TEST(MemberFunctionReflectionWithInstance, ReturnGoodValue) {
     some_class obj;
@@ -58,6 +60,20 @@ TEST(MemberFunctionReflectionWithInstance, UnregisteredFunction) {
     }
     catch (const cpp_reflection::reflection_exception& e) {
         EXPECT_EQ(e.what(), std::string("Function some_class::unregistered is not registered"));
+    }
+    catch (...) {
+        FAIL() << "Expected cpp_reflection::reflection_exception";
+    }
+}
+
+TEST(MemberFunctionReflectionWithInstance, StaticMemberFunction) {
+    try {
+        some_class obj;
+        cpp_reflection::reflection_maker<void()>::invoke(&obj, "some_class", "static_fct");
+        FAIL() << "Expected cpp_reflection::reflection_exception";
+    }
+    catch (const cpp_reflection::reflection_exception& e) {
+        EXPECT_EQ(e.what(), std::string("Function some_class::static_fct can't be called with object"));
     }
     catch (...) {
         FAIL() << "Expected cpp_reflection::reflection_exception";

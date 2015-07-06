@@ -42,7 +42,7 @@ public:
     template <typename Type, typename ReturnType, typename... Params>
     ReturnType invoke(Type* obj, Params... params) {
         if (not m_functions.callable_with_obj)
-            throw reflection_exception("Function " + m_name + " is not a member function and can't be called with object");
+            throw reflection_exception("Function " + m_name + " can't be called with object");
 
         return invoke<callable_with_instance<Type, ReturnType(Params...)>, ReturnType, Type*, Params...>(m_functions.callable_with_obj, obj, params...);
     }
