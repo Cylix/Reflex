@@ -13,7 +13,7 @@ public:
         nb = n;
     }
 
-    unsigned int get_nb(void) {
+    unsigned int get_nb(void) const {
         return nb;
     }
 

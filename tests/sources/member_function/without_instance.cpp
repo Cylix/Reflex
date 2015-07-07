@@ -4,13 +4,14 @@
 class some_class {
 public:
     unsigned int get_nb(void) { return 42; }
+    unsigned int get_nb_const(void) const { return 42; }
 
     void do_something(const std::string&, int& nb, char, float, int nb2) { nb = nb2; }
 
     int add(int nb1, int nb2) { return nb1 + nb2; }
 };
 
-REGISTER_CLASS_FUNCTIONS(some_class, (get_nb)(do_something)(add))
+REGISTER_CLASS_FUNCTIONS(some_class, (get_nb)(do_something)(add)(get_nb_const))
 
 TEST(MemberFunctionReflectionWithoutInstance, ReturnGoodValue) {
     EXPECT_EQ(42, cpp_reflection::reflection_maker<unsigned int()>::invoke("some_class", "get_nb"));
@@ -26,6 +27,10 @@ TEST(MemberFunctionReflectionWithoutInstance, AcceptMultipleParams) {
 
 TEST(MemberFunctionReflectionWithoutInstance, DoExpectedJob) {
     EXPECT_EQ(42, cpp_reflection::reflection_maker<int(int, int)>::invoke("some_class", "add", 20, 22));
+}
+
+TEST(MemberFunctionReflectionWithoutInstance, WithConstMemberFunction) {
+    EXPECT_EQ(42, cpp_reflection::reflection_maker<unsigned int()>::invoke("some_class", "get_nb_const"));
 }
 
 TEST(MemberFunctionReflectionWithoutInstance, UnregisteredFunction) {

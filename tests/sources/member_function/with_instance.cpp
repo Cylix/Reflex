@@ -12,6 +12,7 @@ public:
 public:
     unsigned int get_42(void) { return 42; }
     unsigned int get_nb(void) { return nb; }
+    unsigned int get_nb_const(void) const { return nb; }
     void set_nb(unsigned int nb) { this->nb = nb; }
 
     void do_something(const std::string&, int& nb, char, float, int nb2) { nb = nb2; }
@@ -21,7 +22,13 @@ public:
     static void static_fct(void) {}
 };
 
-REGISTER_CLASS_FUNCTIONS(reflectable_class, (get_42)(do_something)(add)(get_nb)(set_nb)(static_fct))
+REGISTER_CLASS_FUNCTIONS(reflectable_class, (get_42)(do_something)(add)(get_nb)(set_nb)(static_fct)(get_nb_const))
+
+
+TEST(MemberFunctionReflectionWithInstance, WithConstMemberFunction) {
+    reflectable_class obj;
+    EXPECT_EQ(42, cpp_reflection::reflection_maker<unsigned int()>::invoke(&obj, "reflectable_class", "get_nb_const"));
+}
 
 TEST(MemberFunctionReflectionWithInstance, ReturnGoodValue) {
     reflectable_class obj;

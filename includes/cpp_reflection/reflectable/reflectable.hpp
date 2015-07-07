@@ -56,7 +56,19 @@ public:
     //! this closure has the same signature than the registered function and simply forwards its parameters to the function
     //! the closure is stored inside a function<> object
     template <typename ReturnType, typename... Params>
-    void register_function(const std::pair<std::string, ReturnType (Type::*)(Params...)> fct) {
+    void register_function(const std::pair<std::string, ReturnType (Type::*)(Params...) const>& fct) {
+        register_function(std::pair<std::string, ReturnType (Type::*)(Params...)>{
+            fct.first,
+            reinterpret_cast<ReturnType (Type::*)(Params...)>(fct.second)
+        });
+    }
+
+    //! register_function for member functions
+    //! in order to have an equivalent of std::bind with default std::placeholders, we use closures
+    //! this closure has the same signature than the registered function and simply forwards its parameters to the function
+    //! the closure is stored inside a function<> object
+    template <typename ReturnType, typename... Params>
+    void register_function(const std::pair<std::string, ReturnType (Type::*)(Params...)>& fct) {
         auto f_without_instance = [fct] (Params... params) -> ReturnType {
             return (Type().*fct.second)(std::ref(params)...);
         };
@@ -76,7 +88,7 @@ public:
     //! register_function for non member functions (static)
     //! same behavior as explained above
     template <typename ReturnType, typename... Params>
-    void register_function(const std::pair<std::string, ReturnType (*)(Params...)> fct) {
+    void register_function(const std::pair<std::string, ReturnType (*)(Params...)>& fct) {
         auto f_without_instance = [fct] (Params... params) -> ReturnType {
             return (fct.second)(std::ref(params)...);
         };

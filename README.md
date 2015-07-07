@@ -138,7 +138,7 @@ public:
         nb = n;
     }
 
-    unsigned int get_nb(void) {
+    unsigned int get_nb(void) const {
         return nb;
     }
 
@@ -215,7 +215,6 @@ int main(void) {
 | Improvement | Reflection with instance: allow references, copy, shared_ptr and unique_ptr (not only raw pointer) | High | To Do |
 | Improvement | Handling case of multiple REGISTER_FUNCTIONS (or multiple REGISTER_CLASS_FUNCTIONS for same type) in a single project | Moderate | To Do |
 | BugFix | Handle reflection for namespaced classes | High | To Do |
-| BugFix | Handle reflection for const member functions | High | To Do |
 | Feature | Reflection for variables | Low | To Do |
 | Feature | Reflection for overloads | Medium | To Do |
 
