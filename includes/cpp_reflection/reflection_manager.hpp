@@ -40,6 +40,24 @@ public:
         return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
     }
 
+    //! make reflection
+    template <typename Type, typename ReturnType, typename... Params>
+    ReturnType invoke(const std::shared_ptr<Type>& obj, const std::string& class_name, const std::string& function_name, Params... params) {
+        auto reflectable = find_reflectable(class_name);
+        auto fct = reflectable->get_function(function_name);
+
+        return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
+    }
+
+    //! make reflection
+    template <typename Type, typename ReturnType, typename... Params>
+    ReturnType invoke(const std::unique_ptr<Type>& obj, const std::string& class_name, const std::string& function_name, Params... params) {
+        auto reflectable = find_reflectable(class_name);
+        auto fct = reflectable->get_function(function_name);
+
+        return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
+    }
+
     const reflectable_base& get_class(const std::string& class_name) {
         return *find_reflectable(class_name);
     }

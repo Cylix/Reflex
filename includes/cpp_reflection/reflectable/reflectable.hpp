@@ -2,7 +2,6 @@
 
 #include <map>
 #include <string>
-#include <iostream>
 #include <memory>
 
 #include <boost/preprocessor/seq/for_each.hpp>
@@ -46,7 +45,7 @@ public:
 public:
     //! unpack Fcts... variadic template
     template <typename Fct, typename... Fcts>
-    void register_function(const std::pair<std::string, Fct> fct, Fcts... fcts) {
+    void register_function(const std::pair<std::string, Fct>& fct, Fcts... fcts) {
         register_function(fct);
         register_function(fcts...);
     }

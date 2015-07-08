@@ -35,6 +35,16 @@ TEST(MemberFunctionReflectionWithInstance, ReturnGoodValue) {
     EXPECT_EQ(42, cpp_reflection::reflection_maker<unsigned int()>::invoke(&obj, "reflectable_class", "get_42"));
 }
 
+TEST(MemberFunctionReflectionWithInstance, WithSharedPtr) {
+    std::shared_ptr<reflectable_class> obj = std::make_shared<reflectable_class>();
+    EXPECT_EQ(42, cpp_reflection::reflection_maker<unsigned int()>::invoke(obj, "reflectable_class", "get_42"));
+}
+
+TEST(MemberFunctionReflectionWithInstance, WithUniquePtr) {
+    std::unique_ptr<reflectable_class> obj = std::make_unique<reflectable_class>();
+    EXPECT_EQ(42, cpp_reflection::reflection_maker<unsigned int()>::invoke(obj, "reflectable_class", "get_42"));
+}
+
 TEST(MemberFunctionReflectionWithInstance, AcceptMultipleParams) {
     int nb = 0;
 

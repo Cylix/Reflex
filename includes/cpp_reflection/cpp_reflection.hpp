@@ -29,6 +29,16 @@ struct reflection_maker<ReturnType(Params...)> {
         return reflection_manager::get_instance().invoke<Type, ReturnType, Params...>(obj, class_name, function_name, params...);
     }
 
+    template <typename Type>
+    static ReturnType invoke(const std::shared_ptr<Type>& obj, const std::string& class_name, const std::string& function_name, Params... params) {
+        return reflection_manager::get_instance().invoke<Type, ReturnType, Params...>(obj, class_name, function_name, params...);
+    }
+
+    template <typename Type>
+    static ReturnType invoke(const std::unique_ptr<Type>& obj, const std::string& class_name, const std::string& function_name, Params... params) {
+        return reflection_manager::get_instance().invoke<Type, ReturnType, Params...>(obj, class_name, function_name, params...);
+    }
+
     static ReturnType invoke(const std::string& function_name, Params... params) {
         return reflection_manager::get_instance().invoke<ReturnType, Params...>("", function_name, params...);
     }
