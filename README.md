@@ -13,7 +13,10 @@ git clone https://github.com/Cylix/cpp_reflection.git
 cd cpp_reflection
 mkdir build
 cd build
-cmake .. # -DBUILD_TESTING=true for building tests
+cmake .. # only library
+cmake .. -DBUILD_TESTING=true # library and tests
+cmake .. -DBUILD_EXAMPLES=true # library and examples
+cmake .. -DBUILD_TESTING=true -DBUILD_EXAMPLES=true # library, tests and examples
 make -j
 ```
 
@@ -82,14 +85,13 @@ If we take the previous example, by calling `cpp_reflection::reflection_maker<vo
 `reflection_maker::invoke` is overloaded for C-Style functions: `reflection_maker<RetVal(Params...)>::invoke("function_name", ...)`.
 
 ## Making Reflection with instance
-
 By default, reflection for member function is done on a new object.
 
 It is however possible to make reflection on a custom object instance.
 
 `cpp_reflection::reflection_maker<void(const std::string&, float)>::invoke(&some_obj, "SomeClass", "other_fct", some_str, some_float);` will invoke `SomeClass::other_fct` on some_obj instance.
 
-For the moment, this feature only work for raw pointer to the object. Making the same thing with copy, ref, shared_ptr and unique_ptr is under development.
+This feature is available for pointer, std::shared_ptr and std::unique_ptr of the object.
 
 # How does it work
 `REGISTER_CLASS_FUNCTIONS` and `REGISTER_FUNCTIONS` macros are based on the `REGISTER_REFLECTABLE` macro
@@ -121,92 +123,13 @@ This generation is done at compile time but the registration is only effective a
 
 The constructor of a reflectable object registers itself into the reflectable_manager that we can use for reflection.
 
-## Example
-```cpp
-#include <iostream>
-
-#include "cpp_reflection/cpp_reflection.hpp"
-
-//! some class with member functions and static member function
-class SomeClass {
-public:
-    unsigned int nb;
-    SomeClass() : nb(42) {}
-
-    void set_nb(unsigned int n) {
-        std::cout << "set to " << n << std::endl;
-        nb = n;
-    }
-
-    unsigned int get_nb(void) const {
-        return nb;
-    }
-
-    int add(int nb1, int nb2) {
-        std::cout << "add(" << nb1 << ", " << nb2 << ")" << std::endl;
-        return nb1 + nb2;
-    }
-
-    int sub(int nb1, int nb2) {
-        std::cout << "sub(" << nb1 << ", " << nb2 << ")" << std::endl;
-        return nb1 - nb2;
-    }
-
-    static std::string concat(const std::string& str, unsigned int nb) {
-        std::cout << "concat(" << str << ", " << nb << ")" << std::endl;
-        return str + std::to_string(nb);
-    }
-};
-
-//! register this class and its functions
-REGISTER_CLASS_FUNCTIONS(SomeClass, (add)(sub)(concat)(get_nb)(set_nb))
-
-//! some c-style functions
-int basic_fct_1(float f, char c) {
-    std::cout << "basic_fct_1(" << f << ", " << c << ")" << std::endl;
-    return 42;
-}
-
-void basic_fct_2(void) {
-    std::cout << "basic_fct_2()" << std::endl;
-}
-
-//! register c-style functions
-REGISTER_FUNCTIONS((basic_fct_1)(basic_fct_2))
-
-int main(void) {
-    //! reflection on member functions
-    auto res1 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "add", 30, 12);
-    std::cout << res1 << std::endl;
-
-    auto res2 = cpp_reflection::reflection_maker<int(int, int)>::invoke("SomeClass", "sub", 44, 2);
-    std::cout << res2 << std::endl;
-
-    auto res3 = cpp_reflection::reflection_maker<std::string(const std::string&, unsigned int)>::invoke("SomeClass", "concat", std::string("hello"), 42);
-    std::cout << res3 << std::endl;
-
-    //! reflection on c-style functions
-    auto res4 = cpp_reflection::reflection_maker<int(float, char)>::invoke("basic_fct_1", 4.2, 'z');
-    std::cout << res4 << std::endl;
-
-    cpp_reflection::reflection_maker<void()>::invoke("basic_fct_2");
-
-    //! reflection on member functions with custom object instance
-    SomeClass s;
-    auto res5 = cpp_reflection::reflection_maker<unsigned int()>::invoke(&s, "SomeClass", "get_nb");
-    std::cout << res5 << std::endl;
-
-    cpp_reflection::reflection_maker<void(unsigned int)>::invoke(&s, "SomeClass", "set_nb", 1234);
-
-    auto res6 = cpp_reflection::reflection_maker<unsigned int()>::invoke(&s, "SomeClass", "get_nb");
-    std::cout << res6 << std::endl;
-
-    return 0;
-}
-```
+## Examples
+Some examples are provided in this repositories:
+* [reflection_non_member_function.cpp](examples/reflection_non_member_function.cpp) shows reflection for c-style functions and static member functions.
+* [reflection_with_instance.cpp](examples/reflection_with_instance.cpp) provides an example of basic reflection on member functions.
+* [reflection_without_instance.cpp](examples/reflection_without_instance.cpp) details how to make reflection on member functions with an existing object instance.
 
 ## To Do
-
 | Type | Description | Priority | Status |
 |------|-------------|----------|--------|
 | Improvement | Improve test coverage | High | To Do |
