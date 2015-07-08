@@ -3,12 +3,12 @@
 #include <memory>
 #include <string>
 
-#include "cpp_reflection/function/callable_base.hpp"
-#include "cpp_reflection/function/callable_with_instance.hpp"
-#include "cpp_reflection/function/callable_without_instance.hpp"
-#include "cpp_reflection/reflection_exception.hpp"
+#include "reflex/function/callable_base.hpp"
+#include "reflex/function/callable_with_instance.hpp"
+#include "reflex/function/callable_without_instance.hpp"
+#include "reflex/reflection_exception.hpp"
 
-namespace cpp_reflection {
+namespace reflex {
 
 class function {
 public:
@@ -81,4 +81,4 @@ private:
     functions_container m_functions;
 };
 
-} //! cpp_reflection
+} //! reflex

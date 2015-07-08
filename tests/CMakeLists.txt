@@ -1,7 +1,7 @@
 ###
 # project
 ###
-set(PROJECT cpp_reflection_tests)
+set(PROJECT reflex_tests)
 project(${PROJECT} CXX)
 
 
@@ -15,7 +15,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 # includes
 ###
 include_directories(${PROJECT_SOURCE_DIR}/includes
-                    ${CPP_REFLECTION_INCLUDES}
+                    ${REFLEX_INCLUDES}
                     ${GTEST_INCLUDES})
 
 
@@ -35,7 +35,7 @@ endforeach()
 # executable
 ###
 add_executable(${PROJECT} ${SOURCES})
-target_link_libraries(${PROJECT} cpp_reflection gtest pthread)
+target_link_libraries(${PROJECT} reflex gtest pthread)
 set_target_properties(${PROJECT}
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")

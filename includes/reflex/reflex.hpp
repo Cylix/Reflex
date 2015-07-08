@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "cpp_reflection/reflectable/reflectable.hpp"
-#include "cpp_reflection/reflection_manager.hpp"
+#include "reflex/reflectable/reflectable.hpp"
+#include "reflex/reflection_manager.hpp"
 
-namespace cpp_reflection {
+namespace reflex {
 
 template <typename T>
 struct reflection_maker;
@@ -49,9 +49,9 @@ struct reflection_maker<ReturnType(Params...)> {
 //! since it is static, the type is registered at program startup
 #define TO_STRING(val) #val
 #define MAKE_REGISTERABLE_FUNCTION(r, type, i, function) BOOST_PP_COMMA_IF(i) std::make_pair( std::string(TO_STRING(function)), &type::function )
-#define REGISTER_REFLECTABLE(type, functions) static cpp_reflection::reflectable<type> reflectable_##type(#type, BOOST_PP_SEQ_FOR_EACH_I( MAKE_REGISTERABLE_FUNCTION, type, functions ));
+#define REGISTER_REFLECTABLE(type, functions) static reflex::reflectable<type> reflectable_##type(#type, BOOST_PP_SEQ_FOR_EACH_I( MAKE_REGISTERABLE_FUNCTION, type, functions ));
 
 #define REGISTER_CLASS_FUNCTIONS(type, functions) REGISTER_REFLECTABLE(type, functions)
 #define REGISTER_FUNCTIONS(functions) REGISTER_REFLECTABLE(, functions)
 
-} //! cpp_reflection
+} //! reflex

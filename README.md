@@ -1,5 +1,5 @@
-# cpp_reflection
-Simple reflection system in C++.
+# Reflex
+C++14 Reflection Library.
 
 ## Requirements
 * C++14
@@ -9,8 +9,8 @@ Simple reflection system in C++.
 The library uses `cmake`. In order to build the library, follow these steps:
 
 ```bash
-git clone https://github.com/Cylix/cpp_reflection.git
-cd cpp_reflection
+git clone https://github.com/Cylix/reflex.git
+cd reflex
 mkdir build
 cd build
 cmake .. # only library
@@ -20,12 +20,12 @@ cmake .. -DBUILD_TESTING=true -DBUILD_EXAMPLES=true # library, tests and example
 make -j
 ```
 
-Then, you just have to link the `cpp_reflection` library with your project.
+Then, you just have to link the `reflex` library with your project.
 
 ## Register class
 In order to enable reflection, we must explicitly "register" our class.
 
-For this, `cpp_reflection` provides a simple macro: `REGISTER_CLASS_FUNCTIONS(type, list of functions)`.
+For this, `reflex` provides a simple macro: `REGISTER_CLASS_FUNCTIONS(type, list of functions)`.
 * `Type` is the type on which we want to enable reflection
 * `List of functions` is the list of member functions (non-static and static member functions) we want to be able to call during reflection. These functions can have any signature (there is no restriction concerning the return value type, the number of parameters and the types of these parameters).
 
@@ -52,7 +52,7 @@ We just need to do `REGISTER_CLASS_FUNCTIONS(SomeClass, (fct)(other_fct))` and t
 ## Register C-Style functions
 Reflection is not only limited to class member functions. It can be also used on C-style functions.
 
-For this, `cpp_reflection` provides a simple macro: `REGISTER_FUNCTIONS(list of functions)`.
+For this, `reflex` provides a simple macro: `REGISTER_FUNCTIONS(list of functions)`.
 * `List of functions` is the list of functions we want to be able to call during reflection. These functions can have any signature (there is no restriction concerning the return value type, the number of parameters and the types of these parameters).
 
 The list of functions must be formatted in a specific way: `(fct1)(fct2)(fct3)...`.
@@ -80,7 +80,7 @@ This class is the class which does the reflection. By calling `reflection_manage
 
 A facility function with a more elegant syntax is also provided: `reflection_maker<RetVal(Params...)>::invoke("class_name", "function_name", ...)`. It provides the std::function template syntax which is more readable.
 
-If we take the previous example, by calling `cpp_reflection::reflection_maker<void(const std::string&, float)>::invoke("SomeClass", "other_fct", some_str, some_float);`, we will invoke `SomeClass::fct`.
+If we take the previous example, by calling `reflex::reflection_maker<void(const std::string&, float)>::invoke("SomeClass", "other_fct", some_str, some_float);`, we will invoke `SomeClass::fct`.
 
 `reflection_maker::invoke` is overloaded for C-Style functions: `reflection_maker<RetVal(Params...)>::invoke("function_name", ...)`.
 
@@ -89,7 +89,7 @@ By default, reflection for member function is done on a new object.
 
 It is however possible to make reflection on a custom object instance.
 
-`cpp_reflection::reflection_maker<void(const std::string&, float)>::invoke(&some_obj, "SomeClass", "other_fct", some_str, some_float);` will invoke `SomeClass::other_fct` on some_obj instance.
+`reflex::reflection_maker<void(const std::string&, float)>::invoke(&some_obj, "SomeClass", "other_fct", some_str, some_float);` will invoke `SomeClass::other_fct` on some_obj instance.
 
 This feature is available for pointer, std::shared_ptr and std::unique_ptr of the object.
 
@@ -111,7 +111,7 @@ static reflectable<SomeClass> reflectable_SomeClass(
 Another example: `REGISTER_FUNCTIONS((fct)(other_fct))` will generates the following code:
 
 ```cpp
-static reflectable<cpp_reflection::Void> reflectable_(
+static reflectable<reflex::Void> reflectable_(
     "",
     { "fct", &fct },
     { "other_fct", &other_fct }

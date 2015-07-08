@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "cpp_reflection/cpp_reflection.hpp"
+#include "reflex/reflex.hpp"
 
-using namespace cpp_reflection;
+using namespace reflex;
 
 class SomeClass {
 public:

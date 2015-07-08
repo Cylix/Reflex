@@ -13,7 +13,7 @@ cmake_policy(SET CMP0042 NEW)
 ###
 # project
 ###
-set(PROJECT cpp_reflection)
+set(PROJECT reflex)
 project(${PROJECT} CXX)
 
 
@@ -29,13 +29,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(DEPS_FOLDER ${PROJECT_SOURCE_DIR}/deps)
 set(GTEST_INCLUDES ${DEPS_FOLDER}/gtest/include)
 set(GTEST_LIBS ${DEPS_FOLDER}/gtest/lib)
-set(CPP_REFLECTION_INCLUDES ${PROJECT_SOURCE_DIR}/includes)
+set(REFLEX_INCLUDES ${PROJECT_SOURCE_DIR}/includes)
 
 
 ###
 # includes
 ###
-include_directories(${CPP_REFLECTION_INCLUDES})
+include_directories(${REFLEX_INCLUDES})
 
 
 ###

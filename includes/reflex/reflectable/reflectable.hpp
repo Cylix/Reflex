@@ -8,13 +8,13 @@
 #include <boost/preprocessor/seq/for_each_i.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 
-#include "cpp_reflection/function/callable_with_instance.hpp"
-#include "cpp_reflection/function/callable_without_instance.hpp"
-#include "cpp_reflection/function/function.hpp"
-#include "cpp_reflection/reflection_manager.hpp"
-#include "cpp_reflection/reflection_exception.hpp"
+#include "reflex/function/callable_with_instance.hpp"
+#include "reflex/function/callable_without_instance.hpp"
+#include "reflex/function/function.hpp"
+#include "reflex/reflection_manager.hpp"
+#include "reflex/reflection_exception.hpp"
 
-namespace cpp_reflection {
+namespace reflex {
 
 //! empty class
 //! used to template reflectable<> class when registering c-functions
@@ -133,4 +133,4 @@ private:
     std::map<std::string, function> m_functions;
 };
 
-} //! cpp_reflection
+} //! reflex

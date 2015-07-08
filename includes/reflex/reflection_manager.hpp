@@ -4,11 +4,11 @@
 #include <string>
 #include <algorithm>
 
-#include "cpp_reflection/function/function.hpp"
-#include "cpp_reflection/reflectable/reflectable_base.hpp"
-#include "cpp_reflection/reflection_exception.hpp"
+#include "reflex/function/function.hpp"
+#include "reflex/reflectable/reflectable_base.hpp"
+#include "reflex/reflection_exception.hpp"
 
-namespace cpp_reflection {
+namespace reflex {
 
 //! singleton class
 //! this class makes the reflection
@@ -92,4 +92,4 @@ private:
     std::list<const reflectable_base*> m_types;
 };
 
-} //! cpp_reflection
+} //! reflex

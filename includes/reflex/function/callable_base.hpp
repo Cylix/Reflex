@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cpp_reflection {
+namespace reflex {
 
 //! callable_base class
 //! empty base class inherited by callable class
@@ -9,4 +9,4 @@ public:
     virtual ~callable_base(void) = default;
 };
 
-} //! cpp_reflection
+} //! reflex

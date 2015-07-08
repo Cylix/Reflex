@@ -2,9 +2,9 @@
 
 #include <functional>
 
-#include "cpp_reflection/function/callable_base.hpp"
+#include "reflex/function/callable_base.hpp"
 
-namespace cpp_reflection {
+namespace reflex {
 
 template <typename T>
 class callable_without_instance;
@@ -37,4 +37,4 @@ private:
     std::function<ReturnType(Params...)> m_fct;
 };
 
-} //! cpp_reflection
+} //! reflex

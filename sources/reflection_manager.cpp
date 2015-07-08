@@ -1,9 +1,9 @@
-#include "cpp_reflection/reflection_manager.hpp"
-#include "cpp_reflection/reflection_exception.hpp"
+#include "reflex/reflection_manager.hpp"
+#include "reflex/reflection_exception.hpp"
 
 #include <algorithm>
 
-namespace cpp_reflection {
+namespace reflex {
 
 reflection_manager&
 reflection_manager::get_instance(void) {
@@ -17,4 +17,4 @@ reflection_manager::register_reflectable(const reflectable_base* reflectable) {
     m_types.push_back(reflectable);
 }
 
-} //! cpp_reflection
+} //! reflex

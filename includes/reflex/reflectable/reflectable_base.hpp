@@ -3,9 +3,9 @@
 #include <map>
 #include <memory>
 
-#include "cpp_reflection/function/function.hpp"
+#include "reflex/function/function.hpp"
 
-namespace cpp_reflection {
+namespace reflex {
 
 //! reflectable<> base class
 //! used for storing reflectable<> of different types in the same container
@@ -33,4 +33,4 @@ public:
     virtual bool is_registered(const std::string& function_name) const = 0;
 };
 
-} //! cpp_reflection
+} //! reflex

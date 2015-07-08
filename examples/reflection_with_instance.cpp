@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "cpp_reflection/cpp_reflection.hpp"
+#include "reflex/reflex.hpp"
 
-using namespace cpp_reflection;
+using namespace reflex;
 
 class SomeClass {
 public:
@@ -22,12 +22,12 @@ REGISTER_CLASS_FUNCTIONS(SomeClass, (get_nb)(set_nb))
 
 int main(void) {
     SomeClass s;
-    auto res1 = cpp_reflection::reflection_maker<unsigned int()>::invoke(&s, "SomeClass", "get_nb");
+    auto res1 = reflection_maker<unsigned int()>::invoke(&s, "SomeClass", "get_nb");
     std::cout << res1 << std::endl;
 
-    cpp_reflection::reflection_maker<void(unsigned int)>::invoke(&s, "SomeClass", "set_nb", 1234);
+    reflection_maker<void(unsigned int)>::invoke(&s, "SomeClass", "set_nb", 1234);
 
-    auto res2 = cpp_reflection::reflection_maker<unsigned int()>::invoke(&s, "SomeClass", "get_nb");
+    auto res2 = reflection_maker<unsigned int()>::invoke(&s, "SomeClass", "get_nb");
     std::cout << res2 << std::endl;
 
     return 0;

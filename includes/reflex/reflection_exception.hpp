@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-namespace cpp_reflection {
+namespace reflex {
 
 class reflection_exception : public std::runtime_error {
 public:
@@ -10,4 +10,4 @@ public:
     using std::runtime_error::what;
 };
 
-} //! cpp_reflection
+} //! reflex
