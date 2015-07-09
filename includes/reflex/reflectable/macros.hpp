@@ -20,7 +20,7 @@
 
 //! Build namespace from Boost.PP list
 #define __REFLEX_GET_NAMESPACE(r, data, i, namespace_) BOOST_PP_IF(i, "::",)__REFLEX_TO_STRING(namespace_)
-# define __REFLEX_BUILD_NAMESPACE(namespace_) BOOST_PP_SEQ_FOR_EACH_I( __REFLEX_GET_NAMESPACE,, namespace_ )
+#define __REFLEX_BUILD_NAMESPACE(namespace_) BOOST_PP_SEQ_FOR_EACH_I( __REFLEX_GET_NAMESPACE,, namespace_ )
 
 
 //! Boost.PP "callback" for each item
