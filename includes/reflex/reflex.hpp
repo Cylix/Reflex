@@ -4,6 +4,7 @@
 
 #include "reflex/reflectable/reflectable.hpp"
 #include "reflex/reflection_manager.hpp"
+#include "reflex/reflectable/macros.hpp"
 
 namespace reflex {
 
@@ -43,15 +44,5 @@ struct reflection_maker<ReturnType(Params...)> {
         return reflection_manager::get_instance().invoke<ReturnType, Params...>("", function_name, params...);
     }
 };
-
-//! this define creates a static reflectable
-//! REGISTER_REFLECTABLE(type, (fct)(other_fct)) will generates a static reflectable<type> reflectable_int("type", { "fct", &type::fct }, { "other_fct", &type::other_fct }) var
-//! since it is static, the type is registered at program startup
-#define TO_STRING(val) #val
-#define MAKE_REGISTERABLE_FUNCTION(r, type, i, function) BOOST_PP_COMMA_IF(i) std::make_pair( std::string(TO_STRING(function)), &type::function )
-#define REGISTER_REFLECTABLE(type, functions) static reflex::reflectable<type> reflectable_##type(#type, BOOST_PP_SEQ_FOR_EACH_I( MAKE_REGISTERABLE_FUNCTION, type, functions ));
-
-#define REGISTER_CLASS_FUNCTIONS(type, functions) REGISTER_REFLECTABLE(type, functions)
-#define REGISTER_FUNCTIONS(functions) REGISTER_REFLECTABLE(, functions)
 
 } //! reflex

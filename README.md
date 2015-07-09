@@ -11,6 +11,7 @@ The library uses `cmake`. In order to build the library, follow these steps:
 ```bash
 git clone https://github.com/Cylix/reflex.git
 cd reflex
+./install_deps.sh # necessary only for building tests
 mkdir build
 cd build
 cmake .. # only library
@@ -49,6 +50,9 @@ public:
 
 We just need to do `REGISTER_CLASS_FUNCTIONS(SomeClass, (fct)(other_fct))` and this will register `SomeClass` and its two member functions for reflection.
 
+For namespaced classes, `REGISTER_CLASS_FUNCTIONS` can take an extra parameter: `REGISTER_CLASS_FUNCTIONS(some_namespace, SomeClass, (fct)(other_fct))`.
+The macro must be called outside any namespaces in order to avoid conflicts.
+
 ## Register C-Style functions
 Reflection is not only limited to class member functions. It can be also used on C-style functions.
 
@@ -72,6 +76,9 @@ void other_fct(const std::string&, float) {
 ```
 
 We just need to do `REGISTER_FUNCTIONS((fct)(other_fct))` and this will register the two functions for reflection.
+
+For namespaced functions, `REGISTER_FUNCTIONS` can take an extra parameter: `REGISTER_FUNCTIONS(some_namespace, (fct)(other_fct))`.
+The macro must be called outside any namespaces in order to avoid conflicts.
 
 ## Making Reflection
 Each time we register a type and its member functions, it stores this type into the `reflection_manager` singleton class.
@@ -136,7 +143,6 @@ Some examples are provided in this repositories:
 | Improvement | Add full documentation | Moderate | To Do |
 | Improvement | Clear syntax for templates (<ReturnType, Params...> -> <ReturnType(Params)> whenever it is possible) | Low | To Do |
 | Improvement | Handling case of multiple REGISTER_FUNCTIONS (or multiple REGISTER_CLASS_FUNCTIONS for same type) in a single project | Moderate | To Do |
-| BugFix | Handle reflection for namespaced classes | High | To Do |
 | Feature | Reflection for variables | Low | To Do |
 | Feature | Reflection for overloads | Medium | To Do |
 
