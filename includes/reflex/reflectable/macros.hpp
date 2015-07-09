@@ -12,28 +12,42 @@
 #define __REFLEX_GET_MACRO_2(_1, _2, NAME, ...) NAME
 
 
+//! open namespace (Boost.PP "callback")
+#define __REFLEX_OPEN_NAMESPACE(r, data, namespace_) namespace namespace_ {
+//! close namespace (Boost.PP "callback")
+#define __REFLEX_CLOSE_NAMESPACE(r, data, namespace_) }
+
+
+//! Build namespace from Boost.PP list
+#define __REFLEX_GET_NAMESPACE(r, data, i, namespace_) BOOST_PP_IF(i, "::",)__REFLEX_TO_STRING(namespace_)
+# define __REFLEX_BUILD_NAMESPACE(namespace_) BOOST_PP_SEQ_FOR_EACH_I( __REFLEX_GET_NAMESPACE,, namespace_ )
+
+
 //! Boost.PP "callback" for each item
 //! generates a pair associating function name to function pointer
 #define __REFLEX_MAKE_REGISTERABLE_FUNCTION(r, type, i, function) \
 BOOST_PP_COMMA_IF(i) std::make_pair(std::string(__REFLEX_TO_STRING(function)), &type::function)
 
+#define __REFLEX_MAKE_REGISTERABLE_FUNCTION_WITHOUT_TYPE(r, type, i, function) \
+BOOST_PP_COMMA_IF(i) std::make_pair(std::string(__REFLEX_TO_STRING(function)), &function)
+
 
 //! Macro for generating static reflectable for namespaced class functions
 #define __REFLEX_REGISTER_NAMESPACED_CLASS_FUNCTIONS(namespace_, type, functions) \
-namespace namespace_ { \
-    static reflex::reflectable<type> reflectable_##type(#namespace_ "::" #type,\
-                                                                      BOOST_PP_SEQ_FOR_EACH_I( __REFLEX_MAKE_REGISTERABLE_FUNCTION, namespace_::type, functions ));\
-}
+BOOST_PP_SEQ_FOR_EACH( __REFLEX_OPEN_NAMESPACE,, namespace_ ) \
+    static reflex::reflectable<type> \
+    reflectable_##type(__REFLEX_BUILD_NAMESPACE(namespace_) "::" #type, \
+                       BOOST_PP_SEQ_FOR_EACH_I( __REFLEX_MAKE_REGISTERABLE_FUNCTION, type, functions )); \
+BOOST_PP_SEQ_FOR_EACH( __REFLEX_CLOSE_NAMESPACE,, namespace_ )
 
 
 //! Macro for generating static reflectable for namespaced functions
 #define __REFLEX_REGISTER_NAMESPACED_FUNCTIONS(namespace_, functions) \
-namespace namespace_ { \
+BOOST_PP_SEQ_FOR_EACH( __REFLEX_OPEN_NAMESPACE,, namespace_ ) \
     static reflex::reflectable<> \
-    reflectable_##type(#namespace_, BOOST_PP_SEQ_FOR_EACH_I( __REFLEX_MAKE_REGISTERABLE_FUNCTION, \
-                                                             namespace_, \
-                                                             functions )); \
-}
+    reflectable_##type(__REFLEX_BUILD_NAMESPACE(namespace_), \
+                       BOOST_PP_SEQ_FOR_EACH_I( __REFLEX_MAKE_REGISTERABLE_FUNCTION_WITHOUT_TYPE,, functions )); \
+BOOST_PP_SEQ_FOR_EACH( __REFLEX_CLOSE_NAMESPACE,, namespace_ )
 
 
 //! Macro for generating static reflectable for class functions

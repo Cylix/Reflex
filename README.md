@@ -50,7 +50,8 @@ public:
 
 We just need to do `REGISTER_CLASS_FUNCTIONS(SomeClass, (fct)(other_fct))` and this will register `SomeClass` and its two member functions for reflection.
 
-For namespaced classes, `REGISTER_CLASS_FUNCTIONS` can take an extra parameter: `REGISTER_CLASS_FUNCTIONS(some_namespace, SomeClass, (fct)(other_fct))`.
+For namespaced classes, `REGISTER_CLASS_FUNCTIONS` can take an extra parameter: `REGISTER_CLASS_FUNCTIONS((some_namespace)(nested_namespace), SomeClass, (fct)(other_fct))`.
+Namespaces use the Boost.PP syntax with parentheses.
 The macro must be called outside any namespaces in order to avoid conflicts.
 
 ## Register C-Style functions
@@ -77,7 +78,8 @@ void other_fct(const std::string&, float) {
 
 We just need to do `REGISTER_FUNCTIONS((fct)(other_fct))` and this will register the two functions for reflection.
 
-For namespaced functions, `REGISTER_FUNCTIONS` can take an extra parameter: `REGISTER_FUNCTIONS(some_namespace, (fct)(other_fct))`.
+For namespaced functions, `REGISTER_FUNCTIONS` can take an extra parameter: `REGISTER_FUNCTIONS((some_namespace)(nested_namespace), (fct)(other_fct))`.
+Namespaces use the Boost.PP syntax with parentheses.
 The macro must be called outside any namespaces in order to avoid conflicts.
 
 ## Making Reflection
