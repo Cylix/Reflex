@@ -20,13 +20,13 @@ public:
 
     //! register a new reflectable
     //! this reflectable will later can be used for reflection
-    void register_reflectable(const reflectable_base* reflectable);
+    void register_reflectable(const reflectable_base& reflectable);
 
     //! make reflection
     template <typename ReturnType, typename... Params>
     ReturnType invoke(const std::string& class_name, const std::string& function_name, Params... params) {
         auto reflectable = find_reflectable(class_name);
-        auto fct = reflectable->get_function(function_name);
+        auto fct = reflectable.get().get_function(function_name);
 
         return fct.template invoke<ReturnType, Params...>(params...);
     }
@@ -35,7 +35,7 @@ public:
     template <typename Type, typename ReturnType, typename... Params>
     ReturnType invoke(Type* obj, const std::string& class_name, const std::string& function_name, Params... params) {
         auto reflectable = find_reflectable(class_name);
-        auto fct = reflectable->get_function(function_name);
+        auto fct = reflectable.get().get_function(function_name);
 
         return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
     }
@@ -44,7 +44,7 @@ public:
     template <typename Type, typename ReturnType, typename... Params>
     ReturnType invoke(const std::shared_ptr<Type>& obj, const std::string& class_name, const std::string& function_name, Params... params) {
         auto reflectable = find_reflectable(class_name);
-        auto fct = reflectable->get_function(function_name);
+        auto fct = reflectable.get().get_function(function_name);
 
         return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
     }
@@ -53,23 +53,23 @@ public:
     template <typename Type, typename ReturnType, typename... Params>
     ReturnType invoke(const std::unique_ptr<Type>& obj, const std::string& class_name, const std::string& function_name, Params... params) {
         auto reflectable = find_reflectable(class_name);
-        auto fct = reflectable->get_function(function_name);
+        auto fct = reflectable.get().get_function(function_name);
 
         return fct.template invoke<Type, ReturnType, Params...>(obj, params...);
     }
 
     const reflectable_base& get_class(const std::string& class_name) {
-        return *find_reflectable(class_name);
+        return find_reflectable(class_name).get();
     }
 
     const reflectable_base& get_functions(void) const {
-        return *find_reflectable("");
+        return find_reflectable("").get();
     }
 
 private:
-    const reflectable_base* find_reflectable(const std::string& class_name) const {
+    const std::reference_wrapper<const reflectable_base>& find_reflectable(const std::string& class_name) const {
         auto it = std::find_if(m_types.begin(), m_types.end(), [class_name](const auto& type) {
-            return type->get_name() == class_name;
+            return type.get().get_name() == class_name;
         });
 
         if (it == m_types.end())
@@ -89,7 +89,7 @@ private:
 
 private:
     //! registered types
-    std::list<const reflectable_base*> m_types;
+    std::list<std::reference_wrapper<const reflectable_base>> m_types;
 };
 
 } //! reflex

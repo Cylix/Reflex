@@ -13,8 +13,8 @@ reflection_manager::get_instance(void) {
 }
 
 void
-reflection_manager::register_reflectable(const reflectable_base* reflectable) {
-    m_types.push_back(reflectable);
+reflection_manager::register_reflectable(const reflectable_base& reflectable) {
+    m_types.push_back(std::cref(reflectable));
 }
 
 } //! reflex

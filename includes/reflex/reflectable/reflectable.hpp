@@ -32,7 +32,7 @@ public:
     template <typename... Fcts>
     reflectable(const std::string& name, Fcts... fcts)
     : m_name(name) {
-        reflection_manager::get_instance().register_reflectable(this);
+        reflection_manager::get_instance().register_reflectable(*this);
         register_function(fcts...);
     }
 
