@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "reflex/reflex.hpp"
+#include <reflex/reflex>
 
 using namespace reflex;
 

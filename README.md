@@ -21,7 +21,14 @@ cmake .. -DBUILD_TESTING=true -DBUILD_EXAMPLES=true # library, tests and example
 make -j
 ```
 
-Then, you just have to link the `reflex` library with your project.
+If you want to install the library in a specific folder:
+
+```bash
+cmake -DCMAKE_INSTALL_PREFIX=/destination/path ..
+make install -j
+```
+
+Then, you just have to include `<reflex/reflex>` in your source files and to link the `reflex` library with your project.
 
 ## Register class
 In order to enable reflection, we must explicitly "register" our class.

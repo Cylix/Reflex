@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <reflex/reflex.hpp>
+#include <reflex/reflex>
 
 class some_class_with_statics {
 public:

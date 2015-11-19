@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <reflex/reflex.hpp>
+#include <reflex/reflex>
 
 unsigned int get_nb(void) { return 42; }
 

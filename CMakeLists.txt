@@ -66,6 +66,13 @@ set_target_properties(${PROJECT}
 
 
 ###
+# installation directives
+###
+install (TARGETS ${PROJECT} DESTINATION lib)
+install (DIRECTORY ${REFLEX_INCLUDES}/ DESTINATION include)
+
+
+###
 # tests
 ###
 IF (BUILD_TESTING)
