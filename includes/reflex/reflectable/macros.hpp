@@ -1,6 +1,6 @@
 #pragma once
 
-#include "reflex/reflectable/reflectable.hpp"
+#include <reflex/reflectable/reflectable.hpp>
 
 //! convert value to string
 #define __REFLEX_TO_STRING(val) #val

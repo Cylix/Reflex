@@ -8,11 +8,11 @@
 #include <boost/preprocessor/seq/for_each_i.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 
-#include "reflex/function/callable_with_instance.hpp"
-#include "reflex/function/callable_without_instance.hpp"
-#include "reflex/function/function.hpp"
-#include "reflex/reflection_manager.hpp"
-#include "reflex/reflection_exception.hpp"
+#include <reflex/function/callable_with_instance.hpp>
+#include <reflex/function/callable_without_instance.hpp>
+#include <reflex/function/function.hpp>
+#include <reflex/reflection_manager.hpp>
+#include <reflex/reflection_exception.hpp>
 
 namespace reflex {
 

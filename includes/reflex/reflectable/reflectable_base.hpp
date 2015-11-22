@@ -3,7 +3,7 @@
 #include <map>
 #include <memory>
 
-#include "reflex/function/function.hpp"
+#include <reflex/function/function.hpp>
 
 namespace reflex {
 
