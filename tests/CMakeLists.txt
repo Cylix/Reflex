@@ -20,6 +20,12 @@ include_directories(${PROJECT_SOURCE_DIR}/includes
 
 
 ###
+# link
+###
+link_directories(${GTEST_LIBS})
+
+
+###
 # sources
 ###
 set(DIRS "sources" "sources/**")
@@ -35,7 +41,7 @@ endforeach()
 # executable
 ###
 add_executable(${PROJECT} ${SOURCES})
-target_link_libraries(${PROJECT} reflex gtest pthread)
+target_link_libraries(${PROJECT} gtest pthread)
 set_target_properties(${PROJECT}
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")

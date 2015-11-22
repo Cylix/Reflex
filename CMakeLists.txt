@@ -11,19 +11,6 @@ cmake_policy(SET CMP0042 NEW)
 
 
 ###
-# project
-###
-set(PROJECT reflex)
-project(${PROJECT} CXX)
-
-
-###
-# compilation options
-###
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-
-
-###
 # variables
 ###
 set(DEPS_FOLDER ${PROJECT_SOURCE_DIR}/deps)
@@ -33,42 +20,8 @@ set(REFLEX_INCLUDES ${PROJECT_SOURCE_DIR}/includes)
 
 
 ###
-# includes
-###
-include_directories(${REFLEX_INCLUDES})
-
-
-###
-# link
-###
-link_directories(${GTEST_LIBS})
-
-
-###
-# sources
-###
-set(DIRS "sources")
-foreach(dir ${DIRS})
-  # get directory sources
-  file(GLOB s_${dir} "${dir}/*.cpp")
-  # set sources
-  set(SOURCES ${SOURCES} ${s_${dir}})
-endforeach()
-
-
-###
-# executable
-###
-add_library(${PROJECT} SHARED ${SOURCES})
-set_target_properties(${PROJECT}
-                      PROPERTIES
-                      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
-
-
-###
 # installation directives
 ###
-install (TARGETS ${PROJECT} DESTINATION lib)
 install (DIRECTORY ${REFLEX_INCLUDES}/ DESTINATION include)
 
 

@@ -16,11 +16,16 @@ namespace reflex {
 class reflection_manager {
 public:
     //! singleton
-    static reflection_manager& get_instance(void);
+    static reflection_manager& get_instance(void) {
+        static reflection_manager instance;
+        return instance;
+    }
 
     //! register a new reflectable
     //! this reflectable will later can be used for reflection
-    void register_reflectable(const reflectable_base& reflectable);
+    void register_reflectable(const reflectable_base& reflectable) {
+        m_types.push_back(std::cref(reflectable));
+    }
 
     //! make reflection
     template <typename ReturnType, typename... Params>

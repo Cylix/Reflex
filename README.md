@@ -6,7 +6,23 @@ C++14 Reflection Library.
 * Boost.PP includes
 
 ## Compiling
-The library uses `cmake`. In order to build the library, follow these steps:
+The library is `headers only`, so there is nothing to build and to link with your program.
+
+Instead, you just have to include `<reflex/reflex>` in your source files and everything will work as expected.
+
+However, you may need to install the library includes somewhere in your computer: for this, we use `cmake`. Just follow these steps:
+
+```bash
+git clone https://github.com/Cylix/reflex.git
+cd reflex
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/destination/path ..
+make install
+```
+
+## Examples and Tests
+If you want to build the examples or the tests, follow these steps:
 
 ```bash
 git clone https://github.com/Cylix/reflex.git
@@ -14,21 +30,11 @@ cd reflex
 ./install_deps.sh # necessary only for building tests
 mkdir build
 cd build
-cmake .. # only library
-cmake .. -DBUILD_TESTING=true # library and tests
-cmake .. -DBUILD_EXAMPLES=true # library and examples
-cmake .. -DBUILD_TESTING=true -DBUILD_EXAMPLES=true # library, tests and examples
+cmake .. -DBUILD_TESTING=true # tests
+cmake .. -DBUILD_EXAMPLES=true # examples
+cmake .. -DBUILD_TESTING=true -DBUILD_EXAMPLES=true # tests and examples
 make -j
 ```
-
-If you want to install the library in a specific folder:
-
-```bash
-cmake -DCMAKE_INSTALL_PREFIX=/destination/path ..
-make install -j
-```
-
-Then, you just have to include `<reflex/reflex>` in your source files and to link the `reflex` library with your project.
 
 ## Register class
 In order to enable reflection, we must explicitly "register" our class.
@@ -138,6 +144,8 @@ static reflectable<reflex::Void> reflectable_(
 This generation is done at compile time but the registration is only effective at runtime at the beginning of the execution. Registering a class for reflection will impact on the compilation time and at program startup (when all static variables are initialized).
 
 The constructor of a reflectable object registers itself into the reflectable_manager that we can use for reflection.
+
+If you want to read more about the implementation of this library, you may be interested in an article I've written about it: [Reflection in C++14](http://blog.simon-ninon.fr/reflection-in-c-plus-plus-14/).
 
 ## Examples
 Some examples are provided in this repositories:

@@ -15,7 +15,6 @@ include_directories(${PROJECT_SOURCE_DIR}/includes
 # reflection without instance
 ###
 add_executable(reflection_without_instance reflection_without_instance.cpp)
-target_link_libraries(reflection_without_instance reflex)
 set_target_properties(reflection_without_instance
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
@@ -25,7 +24,6 @@ set_target_properties(reflection_without_instance
 # reflection with instance
 ###
 add_executable(reflection_with_instance reflection_with_instance.cpp)
-target_link_libraries(reflection_with_instance reflex)
 set_target_properties(reflection_with_instance
                     PROPERTIES
                     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
@@ -35,7 +33,6 @@ set_target_properties(reflection_with_instance
 # reflection on non member function
 ###
 add_executable(reflection_non_member_function reflection_non_member_function.cpp)
-target_link_libraries(reflection_non_member_function reflex)
 set_target_properties(reflection_non_member_function
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/target")
